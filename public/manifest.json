@@ -1,0 +1,83 @@
+{
+  "id": "/?source=pwa",
+  "name": "manager2 Trade Portal",
+  "short_name": "manager2",
+  "description": "Trade ordering portal: catalogue, delivery scheduling, invoices and order messaging.",
+  "lang": "en-GB",
+  "dir": "ltr",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#f7f7f5",
+  "theme_color": "#f7f7f5",
+  "categories": ["business", "productivity", "shopping"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/shot-catalogue.png",
+      "sizes": "1170x2532",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Browse the catalogue with your contract pricing"
+    },
+    {
+      "src": "/assets/shot-orders.png",
+      "sizes": "2560x1440",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Track orders and invoices"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "New order",
+      "short_name": "Order",
+      "url": "/catalogue?source=shortcut",
+      "icons": [{ "src": "/assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Open orders",
+      "short_name": "Orders",
+      "url": "/orders?source=shortcut"
+    },
+    {
+      "name": "Invoices",
+      "short_name": "Invoices",
+      "url": "/invoices?source=shortcut"
+    }
+  ]
+}
