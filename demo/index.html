@@ -1,703 +1,426 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-PT">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>html{color-scheme:light dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
-<title>Glass Order Desk</title>
+<title>Balcão do Vidro</title>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 
 <style>
-/* ---------------------------------------------------------------------------
-   Palette derived from the material: standard float glass carries a green edge
-   tint from its iron content — which is precisely why low-iron "extra clear"
-   glass sells at a premium. So the neutrals are biased cool-green, the accent
-   is that edge colour, and the smoked/tinted product line supplies the warm
-   counterpart. Chart series colours validated for CVD separation, chroma,
-   lightness band and surface contrast in both modes.
-   --------------------------------------------------------------------------- */
+/* Palette from the material: float glass carries a green edge tint from its
+   iron content, so the neutrals lean cool-green and the accent is that edge
+   colour. Chart series validated for CVD separation and contrast in both modes. */
 :root {
-  --ground:        #F2F4F3;
-  --surface:       #FFFFFF;
-  --surface-2:     #E9EDEB;
-  --surface-sunk:  #DFE5E2;
-  --edge:          #D2DAD7;
-  --edge-strong:   #B4BFBB;
-
-  --ink:           #0E1518;
-  --ink-2:         #4A5A5C;
-  --ink-3:         #7B8A8A;
-
-  --accent:        #00876F;
-  --accent-hover:  #006B58;
-  --accent-sunk:   #DCEDE8;
-  --accent-ink:    #FFFFFF;
-
-  --tint:          #A56A00;
-  --tint-sunk:     #F6EBD9;
-
-  --series-1:      #00876F;
-  --series-2:      #A56A00;
-
-  --good:          #0ca30c;
-  --warning:       #fab219;
-  --serious:       #ec835a;
-  --critical:      #d03b3b;
-  --good-sunk:     #E2F3E2;
-  --warning-sunk:  #FCF2DC;
-  --critical-sunk: #FAE6E6;
-
-  --glass-face:    #C9DAD6;
-  --glass-edge:    #7FA8A0;
-  --gas:           #EEF4F2;
-  --spacer:        #6E7B7B;
-
-  --focus:         #00876F;
-
-  --r-sm: 4px;
-  --r:    7px;
-  --r-lg: 12px;
-
-  --shadow-1: 0 1px 2px rgb(14 21 24 / 7%);
-  --shadow-2: 0 4px 16px rgb(14 21 24 / 9%);
-
-  --display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
-  --body:    'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --mono:    'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
-
-  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --ground:#F2F4F3; --surface:#FFFFFF; --surface-2:#E9EDEB; --sunk:#DFE5E2;
+  --edge:#D2DAD7; --edge-2:#B4BFBB;
+  --ink:#0E1518; --ink-2:#4A5A5C; --ink-3:#7B8A8A;
+  --accent:#00876F; --accent-h:#006B58; --accent-sunk:#DCEDE8; --accent-ink:#FFFFFF;
+  --smoke:#A56A00; --smoke-sunk:#F6EBD9;
+  --series-1:#00876F;
+  --good:#0ca30c; --warn:#fab219; --bad:#d03b3b;
+  --good-sunk:#E2F3E2; --warn-sunk:#FCF2DC; --bad-sunk:#FAE6E6;
+  --glass:#C9DAD6; --glass-e:#7FA8A0;
+  --focus:#00876F;
+  --r:8px; --r-lg:12px;
+  --sh:0 1px 2px rgb(14 21 24 / 7%);
+  --sh-2:0 4px 16px rgb(14 21 24 / 10%);
+  --display:'Archivo','Helvetica Neue',Arial,sans-serif;
+  --body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --ease:cubic-bezier(.32,.72,0,1);
   color-scheme: light dark;
 }
-
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --ground:        #101719;
-    --surface:       #172124;
-    --surface-2:     #1E2A2D;
-    --surface-sunk:  #131C1F;
-    --edge:          #26363A;
-    --edge-strong:   #3B4E52;
-
-    --ink:           #EDF2F1;
-    --ink-2:         #9FB0AF;
-    --ink-3:         #6E8080;
-
-    --accent:        #2E9E8F;
-    --accent-hover:  #46B3A6;
-    --accent-sunk:   #122E2C;
-    --accent-ink:    #06201C;
-
-    --tint:          #BE8636;
-    --tint-sunk:     #2C2213;
-
-    --series-1:      #2E9E8F;
-    --series-2:      #BE8636;
-
-    --good-sunk:     #102A12;
-    --warning-sunk:  #2C2410;
-    --critical-sunk: #2E1614;
-
-    --glass-face:    #2A3F42;
-    --glass-edge:    #4E7B78;
-    --gas:           #1B2629;
-    --spacer:        #63767A;
-
-    --focus:         #46B3A6;
-
-    --shadow-1: 0 1px 2px rgb(0 0 0 / 45%);
-    --shadow-2: 0 4px 16px rgb(0 0 0 / 55%);
+    --ground:#101719; --surface:#172124; --surface-2:#1E2A2D; --sunk:#131C1F;
+    --edge:#26363A; --edge-2:#3B4E52;
+    --ink:#EDF2F1; --ink-2:#9FB0AF; --ink-3:#6E8080;
+    --accent:#2E9E8F; --accent-h:#46B3A6; --accent-sunk:#122E2C; --accent-ink:#06201C;
+    --smoke:#BE8636; --smoke-sunk:#2C2213;
+    --series-1:#2E9E8F;
+    --good-sunk:#102A12; --warn-sunk:#2C2410; --bad-sunk:#2E1614;
+    --glass:#2A3F42; --glass-e:#4E7B78;
+    --focus:#46B3A6;
+    --sh:0 1px 2px rgb(0 0 0 / 45%); --sh-2:0 4px 16px rgb(0 0 0 / 55%);
   }
 }
-
 :root[data-theme="dark"] {
-  --ground:        #101719;
-  --surface:       #172124;
-  --surface-2:     #1E2A2D;
-  --surface-sunk:  #131C1F;
-  --edge:          #26363A;
-  --edge-strong:   #3B4E52;
-  --ink:           #EDF2F1;
-  --ink-2:         #9FB0AF;
-  --ink-3:         #6E8080;
-  --accent:        #2E9E8F;
-  --accent-hover:  #46B3A6;
-  --accent-sunk:   #122E2C;
-  --accent-ink:    #06201C;
-  --tint:          #BE8636;
-  --tint-sunk:     #2C2213;
-  --series-1:      #2E9E8F;
-  --series-2:      #BE8636;
-  --good-sunk:     #102A12;
-  --warning-sunk:  #2C2410;
-  --critical-sunk: #2E1614;
-  --glass-face:    #2A3F42;
-  --glass-edge:    #4E7B78;
-  --gas:           #1B2629;
-  --spacer:        #63767A;
-  --focus:         #46B3A6;
-  --shadow-1: 0 1px 2px rgb(0 0 0 / 45%);
-  --shadow-2: 0 4px 16px rgb(0 0 0 / 55%);
+  --ground:#101719; --surface:#172124; --surface-2:#1E2A2D; --sunk:#131C1F;
+  --edge:#26363A; --edge-2:#3B4E52;
+  --ink:#EDF2F1; --ink-2:#9FB0AF; --ink-3:#6E8080;
+  --accent:#2E9E8F; --accent-h:#46B3A6; --accent-sunk:#122E2C; --accent-ink:#06201C;
+  --smoke:#BE8636; --smoke-sunk:#2C2213;
+  --series-1:#2E9E8F;
+  --good-sunk:#102A12; --warn-sunk:#2C2410; --bad-sunk:#2E1614;
+  --glass:#2A3F42; --glass-e:#4E7B78;
+  --focus:#46B3A6;
+  --sh:0 1px 2px rgb(0 0 0 / 45%); --sh-2:0 4px 16px rgb(0 0 0 / 55%);
 }
 
-*, *::before, *::after { box-sizing: border-box; }
+*,*::before,*::after { box-sizing:border-box; }
+body { margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--body); font-size:15px; line-height:1.5; -webkit-font-smoothing:antialiased; }
+svg { display:block; }
+.draw svg, .panel > svg { width:100%; height:auto; }
+[hidden] { display:none !important; }
+:focus-visible { outline:2px solid var(--focus); outline-offset:2px; }
 
-body {
-  margin: 0;
-  background: var(--ground);
-  color: var(--ink);
-  font-family: var(--body);
-  font-size: 15px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
+/* Header */
+.top { position:sticky; top:0; z-index:40; background:color-mix(in srgb,var(--surface) 90%,transparent);
+  backdrop-filter:blur(12px) saturate(160%); border-bottom:1px solid var(--edge); }
+.top__in { max-width:1040px; margin:0 auto; padding:11px 20px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.brand { display:flex; align-items:center; gap:10px; margin-right:auto; }
+.brand__n { font-family:var(--display); font-weight:700; font-size:15px; letter-spacing:-.01em; margin:0; line-height:1.15; }
+.brand__s { font-family:var(--mono); font-size:10.5px; color:var(--ink-3); letter-spacing:.04em; text-transform:uppercase; }
+.demo-chip { font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase;
+  color:var(--smoke); background:var(--smoke-sunk); border:1px solid color-mix(in srgb,var(--smoke) 32%,transparent);
+  padding:3px 8px; border-radius:999px; white-space:nowrap; }
+.lang { display:flex; gap:2px; background:var(--sunk); padding:2px; border-radius:var(--r); }
+.lang button { font:600 11.5px/1 var(--mono); letter-spacing:.05em; padding:7px 10px; border:0;
+  border-radius:5px; background:transparent; color:var(--ink-2); cursor:pointer; transition:background 140ms var(--ease); }
+.lang button[aria-pressed="true"] { background:var(--surface); color:var(--ink); box-shadow:var(--sh); }
+.tabs { max-width:1040px; margin:0 auto; padding:0 20px; display:flex; gap:24px; overflow-x:auto; }
+.tabs button { font:600 13.5px/1 var(--body); color:var(--ink-3); background:none; border:0;
+  border-bottom:2px solid transparent; padding:11px 0 10px; cursor:pointer; white-space:nowrap;
+  transition:color 140ms var(--ease), border-color 140ms var(--ease); }
+.tabs button:hover { color:var(--ink-2); }
+.tabs button[aria-selected="true"] { color:var(--accent); border-bottom-color:var(--accent); }
 
-svg { display: block; }
-.draw svg, .panel > svg { width: 100%; height: auto; }
-[hidden] { display: none !important; }
+.shell { max-width:1040px; margin:0 auto; padding:24px 20px 60px; }
+.head { margin-bottom:20px; max-width:58ch; }
+.head h2 { font-family:var(--display); font-weight:700; font-size:21px; letter-spacing:-.02em; margin:0 0 5px; text-wrap:balance; }
+.head p { margin:0; color:var(--ink-2); font-size:14px; }
+.eyebrow { font-family:var(--mono); font-size:10.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-3); margin:0 0 8px; }
 
-:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
-}
+.panel { background:var(--surface); border:1px solid var(--edge); border-radius:var(--r-lg); padding:18px; }
+.stack { display:flex; flex-direction:column; gap:14px; }
+.two { display:grid; gap:16px; grid-template-columns:1fr; align-items:start; }
+@media (min-width:880px) { .two { grid-template-columns:minmax(0,1fr) minmax(0,1fr); } }
 
-/* --- Header -------------------------------------------------------------- */
-.masthead {
-  position: sticky; top: 0; z-index: 40;
-  background: color-mix(in srgb, var(--surface) 90%, transparent);
-  backdrop-filter: blur(12px) saturate(160%);
-  border-bottom: 1px solid var(--edge);
-}
-.masthead__inner {
-  max-width: 1180px; margin: 0 auto; padding: 10px 20px;
-  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-}
-.brand { display: flex; align-items: center; gap: 10px; margin-right: auto; }
-.brand__glyph { flex: none; }
-.brand__name {
-  font-family: var(--display); font-weight: 700; font-size: 15px;
-  letter-spacing: -0.01em; margin: 0; line-height: 1.15;
-}
-.brand__sub {
-  font-family: var(--mono); font-size: 10.5px; color: var(--ink-3);
-  letter-spacing: 0.04em; text-transform: uppercase;
-}
-.sample-chip {
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.04em;
-  text-transform: uppercase; color: var(--tint);
-  background: var(--tint-sunk); border: 1px solid color-mix(in srgb, var(--tint) 32%, transparent);
-  padding: 3px 8px; border-radius: 999px; white-space: nowrap;
-}
-.lang { display: flex; gap: 2px; background: var(--surface-sunk); padding: 2px; border-radius: var(--r); }
-.lang button {
-  font: 600 11.5px/1 var(--mono); letter-spacing: 0.05em;
-  padding: 7px 10px; border: 0; border-radius: var(--r-sm);
-  background: transparent; color: var(--ink-2); cursor: pointer;
-  transition: background 140ms var(--ease), color 140ms var(--ease);
-}
-.lang button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow-1); }
+.sect + .sect { margin-top:20px; padding-top:18px; border-top:1px solid var(--edge); }
+.sect__t { font:600 12px/1.3 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); margin:0 0 11px; }
 
-.viewtabs {
-  max-width: 1180px; margin: 0 auto; padding: 0 20px;
-  display: flex; gap: 24px; overflow-x: auto;
-}
-.viewtabs button {
-  font: 600 13.5px/1 var(--body); color: var(--ink-3);
-  background: none; border: 0; border-bottom: 2px solid transparent;
-  padding: 11px 0 10px; cursor: pointer; white-space: nowrap;
-  transition: color 140ms var(--ease), border-color 140ms var(--ease);
-}
-.viewtabs button:hover { color: var(--ink-2); }
-.viewtabs button[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+/* Product picker — two products, so cards, not a dropdown */
+.prods { display:grid; gap:9px; grid-template-columns:1fr 1fr; }
+.prod { position:relative; display:flex; flex-direction:column; gap:8px; cursor:pointer;
+  border:1px solid var(--edge-2); border-radius:var(--r); padding:12px; background:var(--surface);
+  transition:border-color 140ms var(--ease), background 140ms var(--ease); }
+.prod:hover { background:var(--surface-2); }
+.prod input { position:absolute; opacity:0; pointer-events:none; }
+.prod:has(input:checked) { border-color:var(--accent); background:var(--accent-sunk); }
+.prod:has(input:focus-visible) { box-shadow:0 0 0 3px color-mix(in srgb,var(--focus) 22%,transparent); }
+.prod__sw { height:34px; border-radius:5px; border:1px solid rgb(0 0 0 / 22%);
+  box-shadow:inset 0 1px 0 rgb(255 255 255 / 30%); }
+.prod__n { font-size:14px; font-weight:600; }
+.prod__d { font-size:12px; color:var(--ink-2); }
 
-/* --- Shell --------------------------------------------------------------- */
-.shell { max-width: 1180px; margin: 0 auto; padding: 22px 20px 56px; }
+/* Thickness chips */
+.chips { display:flex; gap:7px; flex-wrap:wrap; }
+.chipbtn { position:relative; cursor:pointer; }
+.chipbtn input { position:absolute; opacity:0; pointer-events:none; }
+.chipbtn span { display:inline-flex; align-items:center; justify-content:center; min-width:52px; min-height:40px;
+  padding:0 12px; font:500 14px/1 var(--mono); border:1px solid var(--edge-2); border-radius:var(--r);
+  background:var(--surface); transition:border-color 140ms var(--ease), background 140ms var(--ease); }
+.chipbtn:hover span { background:var(--surface-2); }
+.chipbtn:has(input:checked) span { border-color:var(--accent); background:var(--accent-sunk); color:var(--accent); font-weight:600; }
+.chipbtn:has(input:focus-visible) span { box-shadow:0 0 0 3px color-mix(in srgb,var(--focus) 22%,transparent); }
 
-.viewhead { margin-bottom: 18px; max-width: 62ch; }
-.viewhead h2 {
-  font-family: var(--display); font-weight: 700; font-size: 22px;
-  letter-spacing: -0.02em; margin: 0 0 5px; text-wrap: balance;
-}
-.viewhead p { margin: 0; color: var(--ink-2); font-size: 14px; }
+label.f { display:block; }
+.f__l { display:block; font:600 11px/1.3 var(--mono); letter-spacing:.05em; text-transform:uppercase; color:var(--ink-2); margin-bottom:5px; }
+input[type=number], input[type=text], textarea, select {
+  width:100%; font:500 15px/1.3 var(--mono); color:var(--ink); background:var(--surface);
+  border:1px solid var(--edge-2); border-radius:var(--r); padding:10px; appearance:none;
+  transition:border-color 140ms var(--ease), box-shadow 140ms var(--ease); }
+input[type=text], textarea, select { font-family:var(--body); font-weight:400; }
+textarea { min-height:74px; resize:vertical; }
+select { padding-right:30px;
+  background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);
+  background-position:calc(100% - 16px) 18px, calc(100% - 11px) 18px;
+  background-size:5px 5px,5px 5px; background-repeat:no-repeat; }
+input:focus-visible, textarea:focus-visible, select:focus-visible { outline:none; border-color:var(--focus);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--focus) 20%,transparent); }
+.dims { display:grid; gap:10px; grid-template-columns:1fr 1fr 80px; }
+@media (max-width:480px) { .dims { grid-template-columns:1fr 1fr; } }
 
-.eyebrow {
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.07em;
-  text-transform: uppercase; color: var(--ink-3); margin: 0 0 8px;
-}
+/* Payment options */
+.pays { display:grid; gap:8px; }
+.pay { position:relative; display:flex; align-items:center; gap:11px; cursor:pointer; min-height:52px;
+  border:1px solid var(--edge-2); border-radius:var(--r); padding:11px 13px; background:var(--surface);
+  transition:border-color 140ms var(--ease), background 140ms var(--ease); }
+.pay:hover { background:var(--surface-2); }
+.pay input { accent-color:var(--accent); width:16px; height:16px; margin:0; flex:none; }
+.pay:has(input:checked) { border-color:var(--accent); background:var(--accent-sunk); }
+.pay__n { font-size:14px; font-weight:500; }
+.pay__d { font-size:12px; color:var(--ink-2); }
 
-.panel {
-  background: var(--surface); border: 1px solid var(--edge);
-  border-radius: var(--r-lg); padding: 18px;
-}
-.panel--sunk { background: var(--surface-sunk); }
+.rows { display:grid; gap:1px; background:var(--edge); border-radius:var(--r); overflow:hidden; }
+.rw { display:flex; justify-content:space-between; gap:12px; background:var(--surface); padding:9px 13px; font-size:13.5px; }
+.rw span:first-child { color:var(--ink-2); }
+.rw span:last-child { font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:500; }
+.rw--sum { background:var(--surface-2); font-weight:600; }
+.rw--sum span:first-child { color:var(--ink); }
 
-.grid-desk { display: grid; gap: 16px; grid-template-columns: 1fr; align-items: start; }
-@media (min-width: 900px) { .grid-desk { grid-template-columns: minmax(0,1fr) minmax(0,1.05fr); } }
+.total { display:flex; align-items:flex-end; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+.total__n { font-family:var(--display); font-weight:700; font-size:36px; line-height:1; letter-spacing:-.03em; font-variant-numeric:tabular-nums; }
+.total__l { font:500 11px/1.3 var(--mono); letter-spacing:.05em; text-transform:uppercase; color:var(--ink-3); }
 
-.stack { display: flex; flex-direction: column; gap: 14px; }
-.row { display: flex; align-items: center; gap: 10px; }
-.row--between { justify-content: space-between; }
+.flag { display:flex; gap:9px; align-items:flex-start; font-size:12.5px; border-radius:var(--r); padding:10px 12px; border:1px solid transparent; }
+.flag--w { background:var(--warn-sunk); border-color:color-mix(in srgb,var(--warn) 40%,transparent); }
+.flag--b { background:var(--bad-sunk); border-color:color-mix(in srgb,var(--bad) 40%,transparent); }
+.flag--o { background:var(--accent-sunk); border-color:color-mix(in srgb,var(--accent) 28%,transparent); }
+.flag__i { flex:none; font-weight:700; font-family:var(--mono); }
+.note { font-size:12px; color:var(--ink-3); margin:0; }
 
-/* --- Form -------------------------------------------------------------- */
-.fieldrow { display: grid; gap: 10px; grid-template-columns: 1fr 1fr 84px; }
-@media (max-width: 520px) { .fieldrow { grid-template-columns: 1fr 1fr; } }
+.draw { background:var(--sunk); border:1px solid var(--edge); border-radius:var(--r); padding:12px; }
+.draw__c { font:500 10.5px/1.3 var(--mono); letter-spacing:.05em; text-transform:uppercase; color:var(--ink-3); margin:0 0 8px; }
 
-label.f { display: block; }
-.f__label {
-  display: block; font: 600 11px/1.3 var(--mono); letter-spacing: 0.05em;
-  text-transform: uppercase; color: var(--ink-2); margin-bottom: 5px;
-}
-input[type="number"], select {
-  width: 100%; font: 500 15px/1.2 var(--mono); color: var(--ink);
-  background: var(--surface); border: 1px solid var(--edge-strong);
-  border-radius: var(--r); padding: 9px 10px; appearance: none;
-  transition: border-color 140ms var(--ease), box-shadow 140ms var(--ease);
-}
-select { font-family: var(--body); font-weight: 500; padding-right: 30px;
-  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
-                    linear-gradient(135deg, currentColor 50%, transparent 50%);
-  background-position: calc(100% - 16px) 17px, calc(100% - 11px) 17px;
-  background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; }
-input:focus-visible, select:focus-visible {
-  outline: none; border-color: var(--focus);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 20%, transparent);
-}
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:44px;
+  padding:10px 18px; font:600 14px/1 var(--body); border-radius:var(--r); border:1px solid transparent;
+  cursor:pointer; transition:background 140ms var(--ease), transform 140ms var(--ease); }
+.btn:active { transform:scale(.98); }
+.btn--p { background:var(--accent); color:var(--accent-ink); }
+.btn--p:hover { background:var(--accent-h); }
+.btn--g { background:transparent; color:var(--ink); border-color:var(--edge-2); }
+.btn--g:hover { background:var(--surface-2); }
+.btn--block { width:100%; }
 
-.opts { display: grid; gap: 7px; grid-template-columns: 1fr; }
-@media (min-width: 480px) { .opts { grid-template-columns: 1fr 1fr; } }
-.opt {
-  display: flex; align-items: center; gap: 9px; cursor: pointer;
-  border: 1px solid var(--edge-strong); border-radius: var(--r);
-  padding: 9px 11px; background: var(--surface); min-height: 42px;
-  transition: border-color 140ms var(--ease), background 140ms var(--ease);
-}
-.opt:hover { background: var(--surface-2); }
-.opt input { accent-color: var(--accent); width: 15px; height: 15px; margin: 0; flex: none; }
-.opt:has(input:checked) { border-color: var(--accent); background: var(--accent-sunk); }
-.opt__t { font-size: 13px; font-weight: 500; }
-.opt__p { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); margin-left: auto; white-space: nowrap; }
+/* Order list */
+.list { display:flex; flex-direction:column; gap:8px; }
+.item { display:grid; gap:10px; align-items:center; width:100%; text-align:left; grid-template-columns:1fr auto;
+  background:var(--surface); border:1px solid var(--edge); border-left:3px solid var(--edge-2);
+  border-radius:var(--r); padding:12px 14px; cursor:pointer; font:inherit; color:inherit;
+  transition:border-color 140ms var(--ease), background 140ms var(--ease); }
+.item:hover { background:var(--surface-2); }
+.item[aria-current="true"] { border-color:var(--accent); border-left-color:var(--accent); background:var(--accent-sunk); }
+.item[data-s="new"] { border-left-color:var(--accent); }
+.item[data-s="making"] { border-left-color:var(--warn); }
+.item[data-s="ready"] { border-left-color:var(--good); }
+.item[data-s="done"] { border-left-color:var(--edge-2); }
+.item__r { font:500 12.5px/1.3 var(--mono); color:var(--ink-2); }
+.item__c { font-size:14px; font-weight:600; margin-top:1px; }
+.item__m { font:400 11.5px/1.4 var(--mono); color:var(--ink-3); margin-top:2px; }
+.item__v { font:600 15px/1.2 var(--mono); font-variant-numeric:tabular-nums; text-align:right; }
+.item__right { display:flex; flex-direction:column; gap:5px; align-items:flex-end; }
 
-/* --- Readout ------------------------------------------------------------ */
-.readout { display: grid; gap: 1px; background: var(--edge); border-radius: var(--r); overflow: hidden; }
-.readout__row {
-  display: flex; justify-content: space-between; gap: 12px;
-  background: var(--surface); padding: 8px 12px; font-size: 13px;
-}
-.readout__row span:first-child { color: var(--ink-2); }
-.readout__row span:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; font-weight: 500; }
-.readout__row--sum { background: var(--surface-2); font-weight: 600; }
-.readout__row--sum span:first-child { color: var(--ink); }
+.chip { display:inline-flex; align-items:center; gap:5px; white-space:nowrap; font:600 10.5px/1 var(--mono);
+  letter-spacing:.03em; text-transform:uppercase; padding:4px 8px; border-radius:999px; }
+.chip__d { width:6px; height:6px; border-radius:50%; flex:none; }
+.chip--a { background:var(--accent-sunk); color:color-mix(in srgb,var(--accent) 84%,var(--ink)); }
+.chip--a .chip__d { background:var(--accent); }
+.chip--w { background:var(--warn-sunk); color:color-mix(in srgb,var(--warn) 62%,var(--ink)); }
+.chip--w .chip__d { background:var(--warn); }
+.chip--g { background:var(--good-sunk); color:color-mix(in srgb,var(--good) 78%,var(--ink)); }
+.chip--g .chip__d { background:var(--good); }
+.chip--n { background:var(--sunk); color:var(--ink-2); }
+.chip--n .chip__d { background:var(--ink-3); }
 
-.perf { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--edge);
-  border-radius: var(--r); overflow: hidden; }
-.perf__cell { background: var(--surface); padding: 9px 10px; }
-.perf__k { font: 500 10px/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); }
-.perf__k--raw { text-transform: none; letter-spacing: 0.03em; }
-.perf__v { font: 600 17px/1.25 var(--display); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
-.perf__u { font-size: 10.5px; color: var(--ink-3); font-family: var(--mono); }
+.tbl { width:100%; border-collapse:collapse; font-size:13px; }
+.tbl th { font:600 10px/1.3 var(--mono); letter-spacing:.05em; text-transform:uppercase; color:var(--ink-3);
+  text-align:left; padding:7px 8px; border-bottom:1px solid var(--edge); }
+.tbl td { padding:8px; border-bottom:1px solid var(--edge); font-family:var(--mono); }
+.tbl td.t { font-family:var(--body); }
+.tbl .n { text-align:right; font-variant-numeric:tabular-nums; }
+.scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
 
-.bigprice {
-  display: flex; align-items: flex-end; justify-content: space-between; gap: 14px;
-  padding-top: 4px; flex-wrap: wrap;
-}
-.bigprice__n {
-  font-family: var(--display); font-weight: 700; font-size: 34px; line-height: 1;
-  letter-spacing: -0.03em; font-variant-numeric: tabular-nums;
-}
-.bigprice__l { font: 500 11px/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); }
+.addr { font-family:var(--mono); font-size:13px; line-height:1.6; white-space:pre-line; color:var(--ink); }
 
-.flag {
-  display: flex; gap: 9px; align-items: flex-start; font-size: 12.5px;
-  border-radius: var(--r); padding: 9px 11px; border: 1px solid transparent;
-}
-.flag--warn { background: var(--warning-sunk); border-color: color-mix(in srgb, var(--warning) 40%, transparent); }
-.flag--bad  { background: var(--critical-sunk); border-color: color-mix(in srgb, var(--critical) 40%, transparent); }
-.flag--ok   { background: var(--accent-sunk); border-color: color-mix(in srgb, var(--accent) 28%, transparent); }
-.flag__i { flex: none; font-weight: 700; font-family: var(--mono); }
+.stats { display:grid; gap:1px; background:var(--edge); border:1px solid var(--edge); border-radius:var(--r-lg);
+  overflow:hidden; grid-template-columns:1fr; }
+@media (min-width:600px) { .stats { grid-template-columns:repeat(3,1fr); } }
+.stat { background:var(--surface); padding:16px 17px; }
+.stat__k { font:500 10.5px/1.3 var(--mono); letter-spacing:.05em; text-transform:uppercase; color:var(--ink-3); }
+.stat__v { font-family:var(--display); font-weight:700; font-size:27px; line-height:1.1; letter-spacing:-.025em;
+  font-variant-numeric:tabular-nums; margin-top:3px; }
+.stat__n { font-size:12px; color:var(--ink-2); margin-top:3px; }
 
-.note { font-size: 12px; color: var(--ink-3); margin: 0; }
-.note code, .mono { font-family: var(--mono); }
+.charts { display:grid; gap:16px; grid-template-columns:1fr; }
+@media (min-width:820px) { .charts { grid-template-columns:1fr 1fr; } }
+.ch__t { font-family:var(--display); font-weight:600; font-size:14.5px; letter-spacing:-.01em; margin:0 0 3px; }
+.ch__s { font-size:12.5px; color:var(--ink-2); margin:0 0 14px; }
 
-/* --- Drawing ------------------------------------------------------------ */
-.draw { background: var(--surface-sunk); border: 1px solid var(--edge); border-radius: var(--r); padding: 12px; }
-.draw + .draw { margin-top: 12px; }
-.draw__cap { font: 500 10.5px/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase;
-  color: var(--ink-3); margin: 0 0 8px; }
+.tip { position:fixed; z-index:60; pointer-events:none; opacity:0; background:var(--surface);
+  border:1px solid var(--edge-2); border-radius:var(--r); box-shadow:var(--sh-2); padding:8px 11px;
+  font-size:12.5px; min-width:120px; transition:opacity 100ms var(--ease); }
+.tip.on { opacity:1; }
+.tip__t { font:600 11px/1.3 var(--mono); letter-spacing:.04em; text-transform:uppercase; color:var(--ink-3); margin-bottom:5px; }
+.tip__r { display:flex; justify-content:space-between; gap:14px; }
+.tip__r span:last-child { font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:500; }
+.hit { cursor:pointer; }
+.hit:hover { opacity:.85; }
+details.d { margin-top:10px; }
+details.d summary { font:500 11.5px/1 var(--mono); letter-spacing:.03em; color:var(--ink-3); cursor:pointer; padding:5px 0; }
+details.d summary:hover { color:var(--ink-2); }
 
-/* --- Queue -------------------------------------------------------------- */
-.queue { display: flex; flex-direction: column; gap: 8px; }
-.qrow {
-  display: grid; gap: 10px; align-items: center; width: 100%; text-align: left;
-  grid-template-columns: 1fr auto;
-  background: var(--surface); border: 1px solid var(--edge); border-left: 3px solid var(--edge-strong);
-  border-radius: var(--r); padding: 11px 13px; cursor: pointer;
-  font: inherit; color: inherit;
-  transition: border-color 140ms var(--ease), background 140ms var(--ease), transform 140ms var(--ease);
-}
-.qrow:hover { background: var(--surface-2); }
-.qrow:active { transform: scale(0.996); }
-.qrow[aria-current="true"] { border-color: var(--accent); border-left-color: var(--accent); background: var(--accent-sunk); }
-.qrow[data-sev="critical"] { border-left-color: var(--critical); }
-.qrow[data-sev="warning"] { border-left-color: var(--warning); }
-.qrow[data-sev="good"] { border-left-color: var(--good); }
-.qrow__ref { font: 500 12.5px/1.3 var(--mono); }
-.qrow__acct { font-size: 13px; font-weight: 500; margin-top: 1px; }
-.qrow__meta { font: 400 11.5px/1.4 var(--mono); color: var(--ink-3); margin-top: 2px; }
-.qrow__right { text-align: right; display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
-.qrow__val { font: 600 14px/1.2 var(--mono); font-variant-numeric: tabular-nums; }
+.foot { margin-top:28px; padding-top:16px; border-top:1px solid var(--edge); font-size:12px; color:var(--ink-3); max-width:70ch; }
 
-.chip {
-  display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
-  font: 600 10.5px/1 var(--mono); letter-spacing: 0.03em; text-transform: uppercase;
-  padding: 4px 7px; border-radius: 999px;
-}
-.chip__d { width: 6px; height: 6px; border-radius: 50%; flex: none; }
-.chip--good { background: var(--good-sunk); color: color-mix(in srgb, var(--good) 78%, var(--ink)); }
-.chip--good .chip__d { background: var(--good); }
-.chip--warn { background: var(--warning-sunk); color: color-mix(in srgb, var(--warning) 62%, var(--ink)); }
-.chip--warn .chip__d { background: var(--warning); }
-.chip--bad { background: var(--critical-sunk); color: color-mix(in srgb, var(--critical) 82%, var(--ink)); }
-.chip--bad .chip__d { background: var(--critical); }
-.chip--neutral { background: var(--surface-sunk); color: var(--ink-2); }
-.chip--neutral .chip__d { background: var(--ink-3); }
-.chip--accent { background: var(--accent-sunk); color: color-mix(in srgb, var(--accent) 84%, var(--ink)); }
-.chip--accent .chip__d { background: var(--accent); }
-
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-  min-height: 38px; padding: 8px 15px; font: 600 13px/1 var(--body);
-  border-radius: var(--r); border: 1px solid transparent; cursor: pointer;
-  transition: background 140ms var(--ease), transform 140ms var(--ease), opacity 140ms var(--ease);
-}
-.btn:active { transform: scale(0.98); }
-.btn--primary { background: var(--accent); color: var(--accent-ink); }
-.btn--primary:hover { background: var(--accent-hover); }
-.btn--ghost { background: transparent; color: var(--ink); border-color: var(--edge-strong); }
-.btn--ghost:hover { background: var(--surface-2); }
-.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
-
-.itemtable { width: 100%; border-collapse: collapse; font-size: 12.5px; }
-.itemtable th {
-  font: 600 10px/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase;
-  color: var(--ink-3); text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--edge);
-}
-.itemtable td { padding: 7px 8px; border-bottom: 1px solid var(--edge); font-family: var(--mono); }
-.itemtable td.t { font-family: var(--body); }
-.itemtable .num { text-align: right; font-variant-numeric: tabular-nums; }
-.scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-
-/* --- Stats + charts ---------------------------------------------------- */
-.stats { display: grid; gap: 1px; background: var(--edge); border: 1px solid var(--edge);
-  border-radius: var(--r-lg); overflow: hidden; grid-template-columns: repeat(2, 1fr); }
-@media (min-width: 760px) { .stats { grid-template-columns: repeat(4, 1fr); } }
-.stat { background: var(--surface); padding: 14px 15px; }
-.stat__k { font: 500 10.5px/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); }
-.stat__v { font-family: var(--display); font-weight: 700; font-size: 25px; line-height: 1.1;
-  letter-spacing: -0.025em; font-variant-numeric: tabular-nums; margin-top: 3px; }
-.stat__n { font-size: 11.5px; color: var(--ink-2); margin-top: 3px; }
-
-.charts { display: grid; gap: 16px; grid-template-columns: 1fr; }
-@media (min-width: 880px) { .charts--2 { grid-template-columns: 1fr 1fr; } }
-
-.chart__h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
-  margin-bottom: 3px; flex-wrap: wrap; }
-.chart__t { font-family: var(--display); font-weight: 600; font-size: 14.5px; letter-spacing: -0.01em; margin: 0; }
-.chart__s { font-size: 12px; color: var(--ink-2); margin: 0 0 12px; }
-
-.legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 10px; }
-.legend__i { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--ink-2); }
-.legend__sw { width: 10px; height: 10px; border-radius: 2px; flex: none; }
-
-.tip {
-  position: fixed; z-index: 60; pointer-events: none; opacity: 0;
-  background: var(--surface); border: 1px solid var(--edge-strong);
-  border-radius: var(--r); box-shadow: var(--shadow-2);
-  padding: 8px 10px; font-size: 12px; min-width: 130px;
-  transition: opacity 100ms var(--ease);
-}
-.tip.on { opacity: 1; }
-.tip__t { font: 600 11px/1.3 var(--mono); letter-spacing: 0.04em; text-transform: uppercase;
-  color: var(--ink-3); margin-bottom: 5px; }
-.tip__r { display: flex; justify-content: space-between; gap: 14px; }
-.tip__r span:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; font-weight: 500; }
-.tip__sw { width: 8px; height: 8px; border-radius: 2px; display: inline-block; margin-right: 5px; }
-
-details.data { margin-top: 10px; }
-details.data summary {
-  font: 500 11.5px/1 var(--mono); letter-spacing: 0.03em; color: var(--ink-3);
-  cursor: pointer; padding: 5px 0;
-}
-details.data summary:hover { color: var(--ink-2); }
-
-.bar-hit { cursor: pointer; }
-.bar-hit:hover { opacity: 0.82; }
-
-/* --- Closing ----------------------------------------------------------- */
-.before-after { display: grid; gap: 12px; grid-template-columns: 1fr; }
-@media (min-width: 720px) { .before-after { grid-template-columns: 1fr 1fr; } }
-.ba { border: 1px solid var(--edge); border-radius: var(--r-lg); padding: 16px; background: var(--surface); }
-.ba--now { background: var(--surface-sunk); }
-.ba h4 { font-family: var(--display); font-size: 13px; font-weight: 700; letter-spacing: 0.02em;
-  text-transform: uppercase; margin: 0 0 10px; color: var(--ink-3); }
-.ba--after h4 { color: var(--accent); }
-.ba ul { margin: 0; padding-left: 17px; font-size: 13.5px; }
-.ba li + li { margin-top: 6px; }
-
-.foot { margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--edge);
-  font-size: 12px; color: var(--ink-3); max-width: 70ch; }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
-}
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { transition-duration:.01ms !important; } }
 </style>
 
-<header class="masthead">
-  <div class="masthead__inner">
+<header class="top">
+  <div class="top__in">
     <div class="brand">
-      <svg class="brand__glyph" width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
-        <rect x="2.5" y="3.5" width="8" height="19" rx="1" fill="var(--glass-face)" stroke="var(--glass-edge)" stroke-width="1.2"/>
-        <rect x="15.5" y="3.5" width="8" height="19" rx="1" fill="var(--glass-face)" stroke="var(--glass-edge)" stroke-width="1.2"/>
-        <rect x="10.5" y="19" width="5" height="3.5" fill="var(--spacer)"/>
-        <line x1="12" y1="3.5" x2="12" y2="19" stroke="var(--accent)" stroke-width="1.4"/>
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+        <rect x="4" y="3.5" width="18" height="19" rx="1.5" fill="var(--glass)" stroke="var(--glass-e)" stroke-width="1.2"/>
+        <line x1="8" y1="21" x2="17" y2="5" stroke="#fff" stroke-width="3" opacity=".35"/>
       </svg>
       <div>
-        <p class="brand__name" data-i18n="brandName">Vidro Atlântico</p>
-        <span class="brand__sub" data-i18n="brandSub">Trade portal</span>
+        <p class="brand__n" data-i="bn">Vidro Atlântico</p>
+        <span class="brand__s" data-i="bs">Encomendas</span>
       </div>
     </div>
-    <span class="sample-chip" data-i18n="sampleChip">Demo · sample data</span>
-    <div class="lang" role="group" aria-label="Language">
-      <button type="button" data-lang="en" aria-pressed="true">EN</button>
-      <button type="button" data-lang="pt" aria-pressed="false">PT</button>
+    <span class="demo-chip" data-i="dc">Demonstração · dados de exemplo</span>
+    <div class="lang" role="group" aria-label="Idioma">
+      <button type="button" data-l="pt" aria-pressed="true">PT</button>
+      <button type="button" data-l="en" aria-pressed="false">EN</button>
     </div>
   </div>
-  <div class="viewtabs" role="tablist">
-    <button type="button" role="tab" data-view="desk" aria-selected="true" data-i18n="tabDesk">Order desk</button>
-    <button type="button" role="tab" data-view="ops" aria-selected="false" data-i18n="tabOps">Production &amp; accounts</button>
-    <button type="button" role="tab" data-view="numbers" aria-selected="false" data-i18n="tabNumbers">The numbers</button>
+  <div class="tabs" role="tablist">
+    <button type="button" role="tab" data-v="order" aria-selected="true" data-i="t1">Encomendar</button>
+    <button type="button" role="tab" data-v="ops" aria-selected="false" data-i="t2">Produção e contas</button>
+    <button type="button" role="tab" data-v="num" aria-selected="false" data-i="t3">Os números</button>
   </div>
 </header>
 
 <main class="shell">
 
-  <!-- ==================== VIEW 1: ORDER DESK ==================== -->
-  <section id="view-desk" data-view-panel="desk">
-    <div class="viewhead">
-      <p class="eyebrow" data-i18n="deskEyebrow">What your customer sees</p>
-      <h2 data-i18n="deskTitle">Priced, drawn and scheduled while they are still on site</h2>
-      <p data-i18n="deskLead">Your installer enters the opening size and the specification. Price, performance figures, lead time and the unit itself update as they type — at their own contract rates.</p>
+<!-- ============ ENCOMENDAR ============ -->
+<section data-p="order">
+  <div class="head">
+    <p class="eyebrow" data-i="e1">O que o cliente vê</p>
+    <h2 data-i="h1">Uma encomenda em três passos</h2>
+    <p data-i="l1">Escolher o vidro, dar a medida, dizer onde entregar. O preço aparece enquanto escreve.</p>
+  </div>
+
+  <div class="two">
+    <div class="stack">
+      <div class="panel">
+        <div class="sect">
+          <p class="sect__t"><span data-i="s1">1 · Vidro</span></p>
+          <div class="prods" id="prods"></div>
+        </div>
+
+        <div class="sect">
+          <p class="sect__t"><span data-i="s2">2 · Espessura e medida</span></p>
+          <div class="chips" id="thick" role="group" aria-label="Espessura"></div>
+          <div class="dims" style="margin-top:12px">
+            <label class="f"><span class="f__l" data-i="fw">Largura (mm)</span>
+              <input type="number" id="w" value="1200" min="100" max="2400" step="1" inputmode="numeric"></label>
+            <label class="f"><span class="f__l" data-i="fh">Altura (mm)</span>
+              <input type="number" id="h" value="900" min="100" max="1600" step="1" inputmode="numeric"></label>
+            <label class="f"><span class="f__l" data-i="fq">Un.</span>
+              <input type="number" id="q" value="4" min="1" max="200" step="1" inputmode="numeric"></label>
+          </div>
+        </div>
+
+        <div class="sect">
+          <p class="sect__t"><span data-i="s3">3 · Entrega</span></p>
+          <label class="f" style="margin-bottom:11px">
+            <span class="f__l" data-i="fa">Morada de entrega</span>
+            <textarea id="addr" spellcheck="false">Rua de Santa Catarina 1234
+4000-447 Porto</textarea>
+          </label>
+          <label class="f">
+            <span class="f__l" data-i="fd">Dia e hora</span>
+            <select id="slot"></select>
+          </label>
+          <p class="note" style="margin-top:9px" data-i="nd">Entrega feita pela nossa carrinha. É preciso alguém no local para receber o vidro.</p>
+        </div>
+
+        <div class="sect">
+          <p class="sect__t"><span data-i="s4">4 · Pagamento</span></p>
+          <div class="pays" id="pays"></div>
+        </div>
+      </div>
     </div>
 
-    <div class="grid-desk">
-      <!-- Controls -->
-      <div class="stack">
-        <div class="panel stack">
-          <div class="fieldrow">
-            <label class="f">
-              <span class="f__label" data-i18n="fWidth">Width (mm)</span>
-              <input type="number" id="w" value="1180" min="300" max="3210" step="1" inputmode="numeric">
-            </label>
-            <label class="f">
-              <span class="f__label" data-i18n="fHeight">Height (mm)</span>
-              <input type="number" id="h" value="1420" min="300" max="2250" step="1" inputmode="numeric">
-            </label>
-            <label class="f">
-              <span class="f__label" data-i18n="fQty">Units</span>
-              <input type="number" id="qty" value="12" min="1" max="500" step="1" inputmode="numeric">
-            </label>
-          </div>
-
-          <label class="f">
-            <span class="f__label" data-i18n="fBuildUp">Build-up</span>
-            <select id="spec"></select>
-          </label>
-
-          <label class="f">
-            <span class="f__label" data-i18n="fTint">Outer pane tint</span>
-            <select id="tint"></select>
-          </label>
-
+    <div class="stack">
+      <div class="panel stack">
+        <div class="total">
           <div>
-            <span class="f__label" data-i18n="fOptions">Options</span>
-            <div class="opts" id="opts"></div>
+            <span class="total__l" data-i="tt">Total a pagar</span>
+            <div class="total__n" id="oTotal">—</div>
           </div>
-
-          <p class="note" data-i18n="specNote">Sizes are validated against what the plant can actually make — maximum pane size, minimum billable area, and the tighter limit of the toughening oven.</p>
-        </div>
-
-        <div class="panel">
-          <div class="draw">
-            <p class="draw__cap" data-i18n="drawSection">Section through the unit · drawn to scale</p>
-            <svg id="section" viewBox="0 0 420 178" width="100%" role="img" aria-label="Scale section through the glass unit"></svg>
+          <div style="text-align:right">
+            <span class="total__l" data-i="tr">Pronto em</span>
+            <div style="font:600 19px/1.2 var(--mono)" id="oLead">—</div>
           </div>
         </div>
-
+        <div class="rows">
+          <div class="rw"><span data-i="ra">Área por peça</span><span id="oArea">—</span></div>
+          <div class="rw"><span data-i="rb">Área facturada</span><span id="oBill">—</span></div>
+          <div class="rw"><span data-i="rp">Preço por m²</span><span id="oRate">—</span></div>
+          <div class="rw"><span data-i="ru">Preço por peça</span><span id="oUnit">—</span></div>
+          <div class="rw"><span data-i="rs">Subtotal</span><span id="oNet">—</span></div>
+          <div class="rw"><span data-i="rv">IVA 23%</span><span id="oVat">—</span></div>
+          <div class="rw rw--sum"><span data-i="rt">Total</span><span id="oGross">—</span></div>
+        </div>
+        <button class="btn btn--p btn--block" type="button" id="place" data-i="bp">Confirmar encomenda</button>
         <div id="flags" class="stack"></div>
       </div>
 
-      <!-- Output -->
-      <div class="stack">
-        <div class="panel stack">
-          <div class="bigprice">
-            <div>
-              <span class="bigprice__l" data-i18n="oLineTotal">Line total, ex. VAT</span>
-              <div class="bigprice__n" id="oTotal">—</div>
-            </div>
-            <div style="text-align:right">
-              <span class="bigprice__l" data-i18n="oLead">Ready in</span>
-              <div style="font:600 19px/1.2 var(--mono)" id="oLead">—</div>
-            </div>
-          </div>
-
-          <div class="readout">
-            <div class="readout__row"><span data-i18n="oArea">Area per unit</span><span id="oArea">—</span></div>
-            <div class="readout__row"><span data-i18n="oBillable">Billable area per unit</span><span id="oBillable">—</span></div>
-            <div class="readout__row"><span data-i18n="oRate">Rate</span><span id="oRate">—</span></div>
-            <div class="readout__row"><span data-i18n="oUnit">Price per unit</span><span id="oUnit">—</span></div>
-            <div class="readout__row"><span data-i18n="oVat">VAT 23%</span><span id="oVat">—</span></div>
-            <div class="readout__row readout__row--sum"><span data-i18n="oGross">Total incl. VAT</span><span id="oGross">—</span></div>
-          </div>
-
-          <div>
-            <p class="eyebrow" style="margin-bottom:6px" data-i18n="oDeclared">Declared performance</p>
-            <div class="perf">
-              <div class="perf__cell"><div class="perf__k perf__k--raw">Ug</div><div class="perf__v" id="pUg">—</div><div class="perf__u">W/m²K</div></div>
-              <div class="perf__cell"><div class="perf__k" data-i18n="pSolar">Solar g</div><div class="perf__v" id="pG">—</div><div class="perf__u" data-i18n="pSolarU">factor</div></div>
-              <div class="perf__cell"><div class="perf__k" data-i18n="pLight">Light</div><div class="perf__v" id="pLt">—</div><div class="perf__u">LT %</div></div>
-              <div class="perf__cell"><div class="perf__k" data-i18n="pAcoustic">Acoustic</div><div class="perf__v" id="pRw">—</div><div class="perf__u">Rw dB</div></div>
-            </div>
-            <p class="note" style="margin-top:7px" data-i18n="perfNote">These are the figures the architect specified and the customer is buying. They are snapshotted onto the order line, so the declaration of performance and any later dispute both refer to what was actually quoted.</p>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="draw">
-            <p class="draw__cap" data-i18n="drawElevation">Elevation · proportion and tint</p>
-            <svg id="elevation" viewBox="0 0 420 190" width="100%" role="img" aria-label="Elevation of the unit showing proportion and tint"></svg>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== VIEW 2: OPS ==================== -->
-  <section id="view-ops" data-view-panel="ops" hidden>
-    <div class="viewhead">
-      <p class="eyebrow" data-i18n="opsEyebrow">What you see</p>
-      <h2 data-i18n="opsTitle">A queue you can work, not a pile of emails</h2>
-      <p data-i18n="opsLead">Orders arrive as production data, sorted by promised date and payment status, with credit exposure already assessed. Select one to see the schedule of sizes.</p>
-    </div>
-
-    <div class="grid-desk">
-      <div class="stack">
-        <div class="panel">
-          <div class="row row--between" style="margin-bottom:12px">
-            <p class="eyebrow" style="margin:0" data-i18n="queueHead">Acceptance queue</p>
-            <span class="chip chip--neutral" id="queueCount"><span class="chip__d"></span>5</span>
-          </div>
-          <div class="queue" id="queue"></div>
-        </div>
-      </div>
-
-      <div class="stack" id="detail"></div>
-    </div>
-  </section>
-
-  <!-- ==================== VIEW 3: NUMBERS ==================== -->
-  <section id="view-numbers" data-view-panel="numbers" hidden>
-    <div class="viewhead">
-      <p class="eyebrow" data-i18n="numEyebrow">What the month actually did</p>
-      <h2 data-i18n="numTitle">Margin per order, and capacity before you sell it</h2>
-      <p data-i18n="numLead">Cost is captured on every line at the point of sale, so margin is visible per product line rather than discovered at year end. Square metres committed per week is the number that answers a rush order.</p>
-    </div>
-
-    <div class="stats" style="margin-bottom:16px">
-      <div class="stat">
-        <div class="stat__k" data-i18n="sRev">Revenue, 6 months</div>
-        <div class="stat__v">€457.8k</div>
-        <div class="stat__n" data-i18n="sRevN">March to August</div>
-      </div>
-      <div class="stat">
-        <div class="stat__k" data-i18n="sMargin">Gross margin</div>
-        <div class="stat__v">35.7%</div>
-        <div class="stat__n" data-i18n="sMarginN">€163.5k on €457.8k</div>
-      </div>
-      <div class="stat">
-        <div class="stat__k" data-i18n="sAov">Average order</div>
-        <div class="stat__v">€1,840</div>
-        <div class="stat__n" data-i18n="sAovN">249 orders, 5,890 m²</div>
-      </div>
-      <div class="stat">
-        <div class="stat__k" data-i18n="sOnTime">Delivered in window</div>
-        <div class="stat__v">94%</div>
-        <div class="stat__n" data-i18n="sOnTimeN">Against the slot the customer chose</div>
-      </div>
-    </div>
-
-    <div class="charts charts--2" style="margin-bottom:16px">
       <div class="panel">
-        <div class="chart__h">
-          <h3 class="chart__t" data-i18n="c1Title">Revenue and margin by month</h3>
+        <div class="draw">
+          <p class="draw__c" data-i="dw">A peça · à escala</p>
+          <svg id="piece" viewBox="0 0 420 200" role="img" aria-label="Desenho da peça de vidro"></svg>
         </div>
-        <p class="chart__s" data-i18n="c1Sub">Thousands of euro, ex. VAT. August reflects the summer shutdown.</p>
-        <div class="legend">
-          <span class="legend__i"><span class="legend__sw" style="background:var(--series-1)"></span><span data-i18n="lMargin">Gross margin</span></span>
-          <span class="legend__i"><span class="legend__sw" style="background:var(--series-2)"></span><span data-i18n="lCost">Cost of goods</span></span>
-        </div>
-        <svg id="c1" viewBox="0 0 420 210" width="100%" role="img" aria-label="Revenue split into cost of goods and gross margin, by month"></svg>
-        <details class="data"><summary data-i18n="showTable">Show data table</summary><div class="scroll-x" id="c1t"></div></details>
-      </div>
-
-      <div class="panel">
-        <div class="chart__h">
-          <h3 class="chart__t" data-i18n="c2Title">Square metres committed per week</h3>
-        </div>
-        <p class="chart__s" data-i18n="c2Sub">Against a line capacity of 480 m² per week.</p>
-        <svg id="c2" viewBox="0 0 420 210" width="100%" role="img" aria-label="Square metres committed per production week against line capacity"></svg>
-        <details class="data"><summary data-i18n="showTable">Show data table</summary><div class="scroll-x" id="c2t"></div></details>
       </div>
     </div>
+  </div>
+</section>
 
+<!-- ============ PRODUÇÃO E CONTAS ============ -->
+<section data-p="ops" hidden>
+  <div class="head">
+    <p class="eyebrow" data-i="e2">O que o vidraceiro vê</p>
+    <h2 data-i="h2">Todas as encomendas numa lista</h2>
+    <p data-i="l2">Quatro coisas por linha: quem, o quê, quanto e em que estado. Clique para ver a medida e a morada.</p>
+  </div>
+
+  <div class="two">
     <div class="panel">
-      <div class="chart__h">
-        <h3 class="chart__t" data-i18n="c3Title">Volume and margin by product line</h3>
-      </div>
-      <p class="chart__s" data-i18n="c3Sub">Square metres over six months, with the margin each line returned. The smoked and solar-control work carries the month.</p>
-      <svg id="c3" viewBox="0 0 900 168" width="100%" role="img" aria-label="Square metres and margin percentage by product line"></svg>
-      <details class="data"><summary data-i18n="showTable">Show data table</summary><div class="scroll-x" id="c3t"></div></details>
+      <p class="sect__t" data-i="ql">Encomendas</p>
+      <div class="list" id="list"></div>
     </div>
+    <div id="detail"></div>
+  </div>
+</section>
 
-    <div style="margin-top:26px">
-      <p class="eyebrow" data-i18n="baEyebrow">The change, in one screen</p>
-      <div class="before-after">
-        <div class="ba ba--now">
-          <h4 data-i18n="baNowH">How the order runs today</h4>
-          <ul>
-            <li data-i18n="baNow1">Installer photographs a handwritten schedule of sizes and emails it.</li>
-            <li data-i18n="baNow2">Someone prices it by hand from the rate card, into a spreadsheet.</li>
-            <li data-i18n="baNow3">Quote sits in an inbox. Two days later it is accepted, with a change.</li>
-            <li data-i18n="baNow4">Sizes are retyped into production. This is where the scrap comes from.</li>
-            <li data-i18n="baNow5">Delivery date agreed verbally. Invoice raised separately at month end.</li>
-          </ul>
-        </div>
-        <div class="ba ba--after">
-          <h4 data-i18n="baAfterH">How it runs here</h4>
-          <ul>
-            <li data-i18n="baAfter1">Installer enters sizes once, on site, and sees the price immediately.</li>
-            <li data-i18n="baAfter2">Rate card applied consistently, at their tier, at any hour.</li>
-            <li data-i18n="baAfter3">Order arrives validated against what the plant can make.</li>
-            <li data-i18n="baAfter4">Sizes are never retyped. Whoever measured owns the measurement.</li>
-            <li data-i18n="baAfter5">Window chosen at checkout. Invoice raised on dispatch, correctly.</li>
-          </ul>
-        </div>
-      </div>
+<!-- ============ NÚMEROS ============ -->
+<section data-p="num" hidden>
+  <div class="head">
+    <p class="eyebrow" data-i="e3">O mês</p>
+    <h2 data-i="h3">Três números e dois gráficos</h2>
+    <p data-i="l3">Quanto entrou, quanto vidro saiu, e se a semana está cheia.</p>
+  </div>
+
+  <div class="stats" style="margin-bottom:16px">
+    <div class="stat"><div class="stat__k" data-i="k1">Facturação do mês</div><div class="stat__v">€8.940</div><div class="stat__n" data-i="n1">Agosto de 2026</div></div>
+    <div class="stat"><div class="stat__k" data-i="k2">Vidro cortado</div><div class="stat__v">214 m²</div><div class="stat__n" data-i="n2">96 peças, 31 encomendas</div></div>
+    <div class="stat"><div class="stat__k" data-i="k3">Encomenda média</div><div class="stat__v">€288</div><div class="stat__n" data-i="n3">6,9 m² por encomenda</div></div>
+  </div>
+
+  <div class="charts">
+    <div class="panel">
+      <h3 class="ch__t" data-i="c1t">Facturação por mês</h3>
+      <p class="ch__s" data-i="c1s">Euros, sem IVA. Agosto tem a paragem de Verão.</p>
+      <svg id="c1" viewBox="0 0 420 200" role="img" aria-label="Facturação por mês"></svg>
+      <details class="d"><summary data-i="st">Ver tabela</summary><div class="scroll" id="c1t2"></div></details>
     </div>
+    <div class="panel">
+      <h3 class="ch__t" data-i="c2t">Vidro cortado por semana</h3>
+      <p class="ch__s" data-i="c2s">Metros quadrados, contra 70 m² de capacidade semanal.</p>
+      <svg id="c2" viewBox="0 0 420 200" role="img" aria-label="Metros quadrados cortados por semana"></svg>
+      <details class="d"><summary data-i="st">Ver tabela</summary><div class="scroll" id="c2t2"></div></details>
+    </div>
+  </div>
 
-    <p class="foot" data-i18n="footNote">Every figure on this page is illustrative sample data for demonstration. Rates, capacities and performance values are configured per manufacturer. Insulating glass units are CE-marked construction products: EN 1279-5 applies, and the Construction Products Regulation requires a manufacturer to identify, on request and for ten years, the customers it supplied — which is why this portal is built around verified trade accounts rather than anonymous logins.</p>
-  </section>
+  <p class="foot" data-i="fn">Todos os valores desta página são exemplos para demonstração. Preços, capacidade e prazos são configurados por oficina.</p>
+</section>
 </main>
 
 <div class="tip" id="tip" role="status" aria-live="polite"></div>
@@ -706,1082 +429,552 @@ details.data summary:hover { color: var(--ink-2); }
 (function () {
   'use strict';
 
-  /* =========================================================================
-     1. COPY — English and European Portuguese
-     ========================================================================= */
+  /* ---------------------------------------------------------------- copy -- */
   var T = {
-    en: {
-      brandName: 'Vidro Atlântico', brandSub: 'Trade portal',
-      sampleChip: 'Demo · sample data',
-      tabDesk: 'Order desk', tabOps: 'Production &amp; accounts', tabNumbers: 'The numbers',
-
-      deskEyebrow: 'What your customer sees',
-      deskTitle: 'Priced, drawn and scheduled while they are still on site',
-      deskLead: 'Your installer enters the opening size and the specification. Price, performance figures, lead time and the unit itself update as they type — at their own contract rates.',
-      fWidth: 'Width (mm)', fHeight: 'Height (mm)', fQty: 'Units',
-      fBuildUp: 'Build-up', fTint: 'Outer pane tint', fOptions: 'Options',
-      specNote: 'Sizes are validated against what the plant can actually make — maximum pane size, minimum billable area, and the tighter limit of the toughening oven.',
-      oLineTotal: 'Line total, ex. VAT', oLead: 'Ready in',
-      oArea: 'Area per unit', oBillable: 'Billable area per unit', oRate: 'Rate',
-      oUnit: 'Price per unit', oVat: 'VAT 23%', oGross: 'Total incl. VAT',
-      oDeclared: 'Declared performance',
-      pSolar: 'Solar g', pSolarU: 'factor', pLight: 'Light', pAcoustic: 'Acoustic',
-      perfNote: 'These are the figures the architect specified and the customer is buying. They are snapshotted onto the order line, so the declaration of performance and any later dispute both refer to what was actually quoted.',
-      drawSection: 'Section through the unit · drawn to scale',
-      drawElevation: 'Elevation · proportion and tint',
-
-      opsEyebrow: 'What you see',
-      opsTitle: 'A queue you can work, not a pile of emails',
-      opsLead: 'Orders arrive as production data, sorted by promised date and payment status, with credit exposure already assessed. Select one to see the schedule of sizes.',
-      queueHead: 'Acceptance queue',
-
-      numEyebrow: 'What the month actually did',
-      numTitle: 'Margin per order, and capacity before you sell it',
-      numLead: 'Cost is captured on every line at the point of sale, so margin is visible per product line rather than discovered at year end. Square metres committed per week is the number that answers a rush order.',
-      sRev: 'Revenue, 6 months', sRevN: 'March to August',
-      sMargin: 'Gross margin', sMarginN: '€163.5k on €457.8k',
-      sAov: 'Average order', sAovN: '249 orders, 5,890 m²',
-      sOnTime: 'Delivered in window', sOnTimeN: 'Against the slot the customer chose',
-      c1Title: 'Revenue and margin by month',
-      c1Sub: 'Thousands of euro, ex. VAT. August reflects the summer shutdown.',
-      lMargin: 'Gross margin', lCost: 'Cost of goods',
-      c2Title: 'Square metres committed per week',
-      c2Sub: 'Against a line capacity of 480 m² per week.',
-      c3Title: 'Volume and margin by product line',
-      c3Sub: 'Square metres over six months, with the margin each line returned. The smoked and solar-control work carries the month.',
-      showTable: 'Show data table',
-
-      baEyebrow: 'The change, in one screen',
-      baNowH: 'How the order runs today',
-      baNow1: 'Installer photographs a handwritten schedule of sizes and emails it.',
-      baNow2: 'Someone prices it by hand from the rate card, into a spreadsheet.',
-      baNow3: 'Quote sits in an inbox. Two days later it is accepted, with a change.',
-      baNow4: 'Sizes are retyped into production. This is where the scrap comes from.',
-      baNow5: 'Delivery date agreed verbally. Invoice raised separately at month end.',
-      baAfterH: 'How it runs here',
-      baAfter1: 'Installer enters sizes once, on site, and sees the price immediately.',
-      baAfter2: 'Rate card applied consistently, at their tier, at any hour.',
-      baAfter3: 'Order arrives validated against what the plant can make.',
-      baAfter4: 'Sizes are never retyped. Whoever measured owns the measurement.',
-      baAfter5: 'Window chosen at checkout. Invoice raised on dispatch, correctly.',
-      footNote: 'Every figure on this page is illustrative sample data for demonstration. Rates, capacities and performance values are configured per manufacturer. Insulating glass units are CE-marked construction products: EN 1279-5 applies, and the Construction Products Regulation requires a manufacturer to identify, on request and for ten years, the customers it supplied — which is why this portal is built around verified trade accounts rather than anonymous logins.',
-
-      /* dynamic */
-      days: 'working days', perUnit: 'per unit', outside: 'Outside', inside: 'Inside',
-      spacerLbl: 'Warm-edge spacer', spacerAlu: 'Aluminium spacer',
-      coatingLbl: 'Low-E coating', gasLbl: 'cavity',
-      tooBig: 'That size is beyond the maximum pane we can produce ({w} × {h} mm). Split the opening or call the technical desk.',
-      tooSmall: 'Minimum unit size is 300 × 300 mm.',
-      toughLimit: 'Toughening is limited to 4.2 m² per unit. At {a} m² this unit can be supplied laminated instead.',
-      minBillable: 'Below the 0.65 m² minimum, so this unit is billed at the minimum area. The unit itself is {a} m².',
-      handling: 'At {a} m² each, these need two-person handling and an A-frame on the vehicle. Flagged automatically to dispatch.',
-      warmEdge: 'Warm-edge spacer improves the whole-window U-value through the edge seal, not the centre-pane Ug shown here.',
-      creditHead: 'Account', creditLimit: 'Credit limit', creditUsed: 'In use',
-      creditAvail: 'Available', creditTerms: 'Terms', creditScore: 'Payment score',
-      netDays: '{d}-day terms', prepay: 'Payment in advance',
-      accept: 'Accept order', decline: 'Decline', accepted: 'Accepted',
-      invoiceIssued: 'Invoice {n} issued', schedule: 'Schedule of sizes',
-      colPos: 'Position', colSize: 'Size (mm)', colSpec: 'Specification',
-      colQty: 'Qty', colM2: 'm²', colValue: 'Value',
-      promised: 'Promised', window: 'Delivery window', method: 'Dispatch',
-      selectOrder: 'Select an order from the queue to see its schedule of sizes, credit position and delivery window.',
-      totalUnits: '{n} units', mSquared: '{n} m²',
-      stAwaiting: 'Awaiting acceptance', stProduction: 'In production',
-      stDispatched: 'Dispatched', stPrepay: 'Awaiting payment',
-      payPaid: 'Paid', payTerms: 'On terms', payPending: 'Prepay pending',
-      flagOverLimit: 'This order takes the account €{n} over its credit limit. Accepting requires a credit decision.',
-      flagUnverified: 'New account, verification in progress. Capped at a €250 first order until the VAT registration is confirmed.',
-      flagOverdue: 'One invoice is 34 days overdue. Payment score has dropped to 52.',
-      flagClean: 'Paid in full before production. Nothing outstanding on the account.',
-      capacityLbl: 'Capacity 480 m²',
-      tblMonth: 'Month', tblCost: 'Cost of goods', tblMargin: 'Gross margin',
-      tblRevenue: 'Revenue', tblWeek: 'Week', tblCommitted: 'Committed m²',
-      tblUtil: 'Utilisation', tblLine: 'Product line', tblMarginPct: 'Margin'
-    },
-
     pt: {
-      brandName: 'Vidro Atlântico', brandSub: 'Portal comercial',
-      sampleChip: 'Demonstração · dados de exemplo',
-      tabDesk: 'Balcão de encomendas', tabOps: 'Produção e contas', tabNumbers: 'Os números',
+      bn:'Vidro Atlântico', bs:'Encomendas', dc:'Demonstração · dados de exemplo',
+      t1:'Encomendar', t2:'Produção e contas', t3:'Os números',
+      e1:'O que o cliente vê', h1:'Uma encomenda em três passos',
+      l1:'Escolher o vidro, dar a medida, dizer onde entregar. O preço aparece enquanto escreve.',
+      s1:'1 · Vidro', s2:'2 · Espessura e medida', s3:'3 · Entrega', s4:'4 · Pagamento',
+      fw:'Largura (mm)', fh:'Altura (mm)', fq:'Un.',
+      fa:'Morada de entrega', fd:'Dia e hora',
+      nd:'Entrega feita pela nossa carrinha. É preciso alguém no local para receber o vidro.',
+      tt:'Total a pagar', tr:'Pronto em',
+      ra:'Área por peça', rb:'Área facturada', rp:'Preço por m²', ru:'Preço por peça',
+      rs:'Subtotal', rv:'IVA 23%', rt:'Total', bp:'Confirmar encomenda',
+      dw:'A peça · à escala',
+      e2:'O que o vidraceiro vê', h2:'Todas as encomendas numa lista',
+      l2:'Quatro coisas por linha: quem, o quê, quanto e em que estado. Clique para ver a medida e a morada.',
+      ql:'Encomendas',
+      e3:'O mês', h3:'Três números e dois gráficos',
+      l3:'Quanto entrou, quanto vidro saiu, e se a semana está cheia.',
+      k1:'Facturação do mês', n1:'Agosto de 2026',
+      k2:'Vidro cortado', n2:'96 peças, 31 encomendas',
+      k3:'Encomenda média', n3:'6,9 m² por encomenda',
+      c1t:'Facturação por mês', c1s:'Euros, sem IVA. Agosto tem a paragem de Verão.',
+      c2t:'Vidro cortado por semana', c2s:'Metros quadrados, contra 70 m² de capacidade semanal.',
+      st:'Ver tabela',
+      fn:'Todos os valores desta página são exemplos para demonstração. Preços, capacidade e prazos são configurados por oficina.',
 
-      deskEyebrow: 'O que o seu cliente vê',
-      deskTitle: 'Orçamentado, desenhado e agendado ainda o instalador está em obra',
-      deskLead: 'O instalador introduz a medida do vão e a especificação. Preço, valores de desempenho, prazo e a própria unidade actualizam-se enquanto escreve — às condições contratadas dele.',
-      fWidth: 'Largura (mm)', fHeight: 'Altura (mm)', fQty: 'Unidades',
-      fBuildUp: 'Composição', fTint: 'Cor do vidro exterior', fOptions: 'Opções',
-      specNote: 'As medidas são validadas contra o que a fábrica consegue produzir — dimensão máxima de pano, área mínima facturável e o limite mais apertado do forno de têmpera.',
-      oLineTotal: 'Total da linha, s/ IVA', oLead: 'Pronto em',
-      oArea: 'Área por unidade', oBillable: 'Área facturável por unidade', oRate: 'Preço',
-      oUnit: 'Preço por unidade', oVat: 'IVA 23%', oGross: 'Total c/ IVA',
-      oDeclared: 'Desempenho declarado',
-      pSolar: 'Solar g', pSolarU: 'factor', pLight: 'Luz', pAcoustic: 'Acústica',
-      perfNote: 'São estes os valores que o projectista especificou e que o cliente está a comprar. Ficam registados na linha de encomenda, para que tanto a declaração de desempenho como qualquer reclamação futura remetam para o que foi efectivamente orçamentado.',
-      drawSection: 'Corte pela unidade · desenhado à escala',
-      drawElevation: 'Alçado · proporção e cor',
+      pSimples:'Vidro simples', pSimplesD:'Incolor, à medida',
+      pFumado:'Vidro fumado', pFumadoD:'Cinza, à medida',
+      payMb:'MB WAY', payMbD:'Pago agora pelo telemóvel',
+      payTr:'Transferência bancária', payTrD:'IBAN enviado com a confirmação',
+      payCo:'Numerário na entrega', payCoD:'Paga ao motorista quando recebe',
+      days:'dias úteis', day:'dia útil',
+      tooBig:'A medida máxima é 2400 × 1600 mm. Para peças maiores, telefone-nos.',
+      tooSmall:'A medida mínima é 100 × 100 mm.',
+      minBill:'Abaixo de 0,25 m², a peça é facturada pela área mínima.',
+      heavy:'Com {a} m² por peça, é preciso alguém para ajudar a descarregar.',
+      thick:'A {t} mm, esta peça pesa cerca de {kg} kg.',
+      placed:'Encomenda {n} registada. Enviámos a confirmação.',
+      colPiece:'Peça', colSize:'Medida', colQty:'Un.', colM2:'m²', colVal:'Valor',
+      sNew:'Por aceitar', sMaking:'Em corte', sReady:'Pronta', sDone:'Entregue',
+      lblAddr:'Morada', lblSlot:'Entrega', lblPay:'Pagamento', lblTotal:'Total',
+      accept:'Aceitar', markReady:'Marcar pronta', accepted:'Aceite',
+      pick:'Escolha uma encomenda da lista.',
+      tblMonth:'Mês', tblBilled:'Facturação', tblWeek:'Semana', tblM2:'m²', tblUse:'Ocupação',
+      cap:'Capacidade 70 m²'
+    },
+    en: {
+      bn:'Vidro Atlântico', bs:'Orders', dc:'Demo · sample data',
+      t1:'Order', t2:'Production & accounts', t3:'The numbers',
+      e1:'What the customer sees', h1:'An order in three steps',
+      l1:'Pick the glass, give the size, say where to deliver. The price appears as you type.',
+      s1:'1 · Glass', s2:'2 · Thickness and size', s3:'3 · Delivery', s4:'4 · Payment',
+      fw:'Width (mm)', fh:'Height (mm)', fq:'Qty',
+      fa:'Delivery address', fd:'Day and time',
+      nd:'Delivered by our own van. Someone must be there to take the glass in.',
+      tt:'Total to pay', tr:'Ready in',
+      ra:'Area per piece', rb:'Billed area', rp:'Price per m²', ru:'Price per piece',
+      rs:'Subtotal', rv:'VAT 23%', rt:'Total', bp:'Place order',
+      dw:'The piece · to scale',
+      e2:'What the glazier sees', h2:'Every order in one list',
+      l2:'Four things per line: who, what, how much, and where it stands. Click to see the size and address.',
+      ql:'Orders',
+      e3:'The month', h3:'Three numbers and two charts',
+      l3:'What came in, how much glass went out, and whether the week is full.',
+      k1:'Billed this month', n1:'August 2026',
+      k2:'Glass cut', n2:'96 pieces, 31 orders',
+      k3:'Average order', n3:'6.9 m² per order',
+      c1t:'Billed by month', c1s:'Euro, ex. VAT. August has the summer shutdown.',
+      c2t:'Glass cut per week', c2s:'Square metres, against 70 m² of weekly capacity.',
+      st:'Show table',
+      fn:'Every figure on this page is sample data for demonstration. Prices, capacity and lead times are configured per workshop.',
 
-      opsEyebrow: 'O que vê o fabricante',
-      opsTitle: 'Uma fila que se trabalha, não um monte de e-mails',
-      opsLead: 'As encomendas chegam como dados de produção, ordenadas por data prometida e estado de pagamento, com a exposição de crédito já avaliada. Seleccione uma para ver a lista de medidas.',
-      queueHead: 'Fila de aceitação',
-
-      numEyebrow: 'O que o mês fez, na realidade',
-      numTitle: 'Margem por encomenda, e capacidade antes de a vender',
-      numLead: 'O custo é registado em cada linha no momento da venda, pelo que a margem é visível por linha de produto em vez de descoberta no fecho do ano. Os metros quadrados comprometidos por semana são o número que responde a uma encomenda urgente.',
-      sRev: 'Facturação, 6 meses', sRevN: 'De Março a Agosto',
-      sMargin: 'Margem bruta', sMarginN: '163,5 mil € em 457,8 mil €',
-      sAov: 'Encomenda média', sAovN: '249 encomendas, 5.890 m²',
-      sOnTime: 'Entregue na janela', sOnTimeN: 'Face ao horário escolhido pelo cliente',
-      c1Title: 'Facturação e margem por mês',
-      c1Sub: 'Milhares de euros, s/ IVA. Agosto reflecte a paragem de Verão.',
-      lMargin: 'Margem bruta', lCost: 'Custo das mercadorias',
-      c2Title: 'Metros quadrados comprometidos por semana',
-      c2Sub: 'Face a uma capacidade de linha de 480 m² por semana.',
-      c3Title: 'Volume e margem por linha de produto',
-      c3Sub: 'Metros quadrados em seis meses, com a margem que cada linha devolveu. O trabalho fumado e de controlo solar é que sustenta o mês.',
-      showTable: 'Mostrar tabela de dados',
-
-      baEyebrow: 'A mudança, num ecrã',
-      baNowH: 'Como corre a encomenda hoje',
-      baNow1: 'O instalador fotografa uma lista de medidas manuscrita e envia-a por e-mail.',
-      baNow2: 'Alguém orça à mão a partir da tabela, para uma folha de cálculo.',
-      baNow3: 'O orçamento fica numa caixa de correio. Dois dias depois é aceite, com uma alteração.',
-      baNow4: 'As medidas são redigitadas para produção. É daqui que vem a sucata.',
-      baNow5: 'Data de entrega combinada verbalmente. Factura emitida à parte, ao fim do mês.',
-      baAfterH: 'Como corre aqui',
-      baAfter1: 'O instalador introduz as medidas uma vez, em obra, e vê o preço de imediato.',
-      baAfter2: 'Tabela aplicada de forma consistente, na categoria dele, a qualquer hora.',
-      baAfter3: 'A encomenda chega validada contra o que a fábrica consegue produzir.',
-      baAfter4: 'As medidas nunca são redigitadas. Quem mediu assume a medida.',
-      baAfter5: 'Janela escolhida no checkout. Factura emitida na expedição, correctamente.',
-      footNote: 'Todos os valores nesta página são dados de exemplo para demonstração. Preços, capacidades e valores de desempenho são configurados por fabricante. Os vidros isolantes são produtos de construção com marcação CE: aplica-se a EN 1279-5, e o Regulamento dos Produtos de Construção obriga o fabricante a identificar, quando solicitado e durante dez anos, os clientes a quem forneceu — e é por isso que este portal assenta em contas comerciais verificadas e não em registos anónimos.',
-
-      days: 'dias úteis', perUnit: 'por unidade', outside: 'Exterior', inside: 'Interior',
-      spacerLbl: 'Perfil de bordo quente', spacerAlu: 'Perfil de alumínio',
-      coatingLbl: 'Revestimento baixo emissivo', gasLbl: 'câmara',
-      tooBig: 'Essa medida ultrapassa o pano máximo que conseguimos produzir ({w} × {h} mm). Divida o vão ou contacte o departamento técnico.',
-      tooSmall: 'A dimensão mínima da unidade é 300 × 300 mm.',
-      toughLimit: 'A têmpera está limitada a 4,2 m² por unidade. Com {a} m², esta unidade pode ser fornecida em laminado.',
-      minBillable: 'Abaixo do mínimo de 0,65 m², pelo que a unidade é facturada pela área mínima. A unidade em si tem {a} m².',
-      handling: 'Com {a} m² cada, estas exigem manuseamento a dois e cavalete no veículo. Sinalizado automaticamente à expedição.',
-      warmEdge: 'O perfil de bordo quente melhora o valor U da janela completa através do bordo, não o Ug de centro de vidro aqui apresentado.',
-      creditHead: 'Conta', creditLimit: 'Limite de crédito', creditUsed: 'Em uso',
-      creditAvail: 'Disponível', creditTerms: 'Condições', creditScore: 'Pontuação de pagamento',
-      netDays: '{d} dias', prepay: 'Pagamento antecipado',
-      accept: 'Aceitar encomenda', decline: 'Recusar', accepted: 'Aceite',
-      invoiceIssued: 'Factura {n} emitida', schedule: 'Lista de medidas',
-      colPos: 'Posição', colSize: 'Medida (mm)', colSpec: 'Especificação',
-      colQty: 'Qtd', colM2: 'm²', colValue: 'Valor',
-      promised: 'Prometido', window: 'Janela de entrega', method: 'Expedição',
-      selectOrder: 'Seleccione uma encomenda da fila para ver a lista de medidas, a posição de crédito e a janela de entrega.',
-      totalUnits: '{n} unidades', mSquared: '{n} m²',
-      stAwaiting: 'Aguarda aceitação', stProduction: 'Em produção',
-      stDispatched: 'Expedida', stPrepay: 'Aguarda pagamento',
-      payPaid: 'Paga', payTerms: 'A prazo', payPending: 'Pré-pagamento pendente',
-      flagOverLimit: 'Esta encomenda coloca a conta {n} € acima do limite de crédito. Aceitar exige uma decisão de crédito.',
-      flagUnverified: 'Conta nova, verificação em curso. Limitada a uma primeira encomenda de 250 € até o NIF ser confirmado.',
-      flagOverdue: 'Uma factura está vencida há 34 dias. A pontuação de pagamento desceu para 52.',
-      flagClean: 'Paga integralmente antes da produção. Nada em dívida na conta.',
-      capacityLbl: 'Capacidade 480 m²',
-      tblMonth: 'Mês', tblCost: 'Custo das mercadorias', tblMargin: 'Margem bruta',
-      tblRevenue: 'Facturação', tblWeek: 'Semana', tblCommitted: 'm² comprometidos',
-      tblUtil: 'Utilização', tblLine: 'Linha de produto', tblMarginPct: 'Margem'
+      pSimples:'Clear glass', pSimplesD:'Cut to size',
+      pFumado:'Smoked glass', pFumadoD:'Grey tint, cut to size',
+      payMb:'MB WAY', payMbD:'Paid now from the phone',
+      payTr:'Bank transfer', payTrD:'IBAN sent with the confirmation',
+      payCo:'Cash on delivery', payCoD:'Pay the driver on arrival',
+      days:'working days', day:'working day',
+      tooBig:'The largest we cut is 2400 × 1600 mm. For bigger pieces, call us.',
+      tooSmall:'The smallest we cut is 100 × 100 mm.',
+      minBill:'Below 0.25 m², the piece is billed at the minimum area.',
+      heavy:'At {a} m² a piece, someone will need to help unload.',
+      thick:'At {t} mm, this piece weighs about {kg} kg.',
+      placed:'Order {n} registered. Confirmation sent.',
+      colPiece:'Piece', colSize:'Size', colQty:'Qty', colM2:'m²', colVal:'Value',
+      sNew:'To accept', sMaking:'Cutting', sReady:'Ready', sDone:'Delivered',
+      lblAddr:'Address', lblSlot:'Delivery', lblPay:'Payment', lblTotal:'Total',
+      accept:'Accept', markReady:'Mark ready', accepted:'Accepted',
+      pick:'Pick an order from the list.',
+      tblMonth:'Month', tblBilled:'Billed', tblWeek:'Week', tblM2:'m²', tblUse:'Utilisation',
+      cap:'Capacity 70 m²'
     }
   };
 
-  var lang = 'en';
-  function t(k) { return (T[lang] && T[lang][k]) || T.en[k] || k; }
-  function fill(k, vars) {
-    return t(k).replace(/\{(\w+)\}/g, function (_, n) { return vars[n]; });
-  }
+  var lang = 'pt';
+  function t(k) { return (T[lang] && T[lang][k]) || T.pt[k] || k; }
+  function fill(k, v) { return t(k).replace(/\{(\w+)\}/g, function (_, n) { return v[n]; }); }
 
-  /* =========================================================================
-     2. PRODUCT DATA
-     Build-ups notated the way the trade writes them: 4-16Ar-4 is 4 mm glass,
-     16 mm argon cavity, 4 mm glass.
-     ========================================================================= */
-  var SPECS = [
-    { code: '4-16Ar-4', en: 'Clear double, argon', pt: 'Duplo incolor, árgon',
-      panes: [4, 4], cavities: [16], gas: 'Ar', coating: null,
-      ug: 2.70, g: 0.62, lt: 0.80, rw: 30, rate: 4200, lead: 5, maxA: null },
-    { code: '4-16Ar-4LE', en: 'Low-E double, argon', pt: 'Duplo baixo emissivo, árgon',
-      panes: [4, 4], cavities: [16], gas: 'Ar', coating: 2,
-      ug: 1.10, g: 0.53, lt: 0.74, rw: 30, rate: 5800, lead: 5, maxA: null },
-    { code: '4-20Ar-4LE', en: 'Low-E double, 20 mm cavity', pt: 'Duplo baixo emissivo, câmara 20 mm',
-      panes: [4, 4], cavities: [20], gas: 'Ar', coating: 2,
-      ug: 1.00, g: 0.53, lt: 0.74, rw: 31, rate: 6200, lead: 5, maxA: null },
-    { code: '4-14Ar-4-14Ar-4LE²', en: 'Triple, two low-E coatings', pt: 'Triplo, dois revestimentos baixo emissivos',
-      panes: [4, 4, 4], cavities: [14, 14], gas: 'Ar', coating: 2,
-      ug: 0.60, g: 0.48, lt: 0.68, rw: 33, rate: 9600, lead: 7, maxA: 3.6 }
+  /* -------------------------------------------------------------- catalogue */
+  /* Two products, five thicknesses. Rates per m2, minimum billable area, and
+     a lead time that follows thickness — that is the whole price list. */
+  var PRODUCTS = [
+    { id:'simples', k:'pSimples', d:'pSimplesD', tint:null, op:0, uplift:0,
+      swatch:'linear-gradient(145deg,#E4F0EC 0%,#C2D8D2 46%,#DCEAE6 47%,#A9C5BE 100%)' },
+    { id:'fumado',  k:'pFumado',  d:'pFumadoD',  tint:'#5A5F63', op:0.62, uplift:1600,
+      swatch:'linear-gradient(145deg,#7C8186 0%,#4E5357 46%,#63686C 47%,#33383C 100%)' }
+  ];
+  var THICKNESS = [
+    { mm:4,  rate:2800, lead:2, kgm2:10 },
+    { mm:5,  rate:3400, lead:2, kgm2:12.5 },
+    { mm:6,  rate:4100, lead:2, kgm2:15 },
+    { mm:8,  rate:5800, lead:3, kgm2:20 },
+    { mm:10, rate:7600, lead:3, kgm2:25 }
+  ];
+  var PAYMENTS = [
+    { id:'mbway',    k:'payMb', d:'payMbD' },
+    { id:'transfer', k:'payTr', d:'payTrD' },
+    { id:'cash',     k:'payCo', d:'payCoD' }
+  ];
+  var SLOTS = [
+    { v:'2026-09-04-am', pt:'Sexta, 4 Set · 09:00–12:00', en:'Friday 4 Sep · 09:00–12:00' },
+    { v:'2026-09-04-pm', pt:'Sexta, 4 Set · 14:00–17:00', en:'Friday 4 Sep · 14:00–17:00' },
+    { v:'2026-09-07-am', pt:'Segunda, 7 Set · 09:00–12:00', en:'Monday 7 Sep · 09:00–12:00' },
+    { v:'2026-09-08-am', pt:'Terça, 8 Set · 09:00–12:00', en:'Tuesday 8 Sep · 09:00–12:00' }
   ];
 
-  var TINTS = [
-    { code: 'CLEAR',  en: 'Clear',            pt: 'Incolor',          up: 0,    g: 1,    lt: 1,    lead: 0, hex: null,      op: 0 },
-    { code: 'BRONZE', en: 'Bronze body tint', pt: 'Bronze na massa',  up: 1400, g: 0.62, lt: 0.62, lead: 0, hex: '#8A6A45', op: 0.55 },
-    { code: 'GREY',   en: 'Grey body tint',   pt: 'Cinza na massa',   up: 1400, g: 0.60, lt: 0.55, lead: 0, hex: '#6E7276', op: 0.58 },
-    { code: 'SMOKE',  en: 'Smoked privacy grey', pt: 'Fumado cinza',  up: 1950, g: 0.42, lt: 0.30, lead: 1, hex: '#43484C', op: 0.74 }
-  ];
+  var MIN_M2 = 0.25, VAT = 0.23;
+  var MAX_W = 2400, MAX_H = 1600, MIN_W = 100, MIN_H = 100;
 
-  var OPTIONS = [
-    { code: 'TOUGH', en: 'Toughened outer', pt: 'Exterior temperado',
-      up: 1800, lead: 2, rw: 0, maxA: 4.2 },
-    { code: 'LAM64', en: 'Laminated 6.4 mm inner', pt: 'Interior laminado 6,4 mm',
-      up: 2600, lead: 3, rw: 5, maxA: null },
-    { code: 'ACOUSTIC', en: 'Acoustic interlayer', pt: 'Película acústica',
-      up: 3100, lead: 4, rw: 9, maxA: null },
-    { code: 'WARM', en: 'Warm-edge spacer', pt: 'Perfil de bordo quente',
-      up: 550, lead: 0, rw: 0, maxA: null }
-  ];
+  var st = { prod:0, thick:2, pay:0 };
 
-  var MIN_BILLABLE = 0.65, VAT = 0.23;
-  var MAX_W = 3210, MAX_H = 2250, MIN_W = 300, MIN_H = 300;
-
-  /* =========================================================================
-     3. HELPERS
-     ========================================================================= */
+  /* ----------------------------------------------------------------- utils */
   var $ = function (s, r) { return (r || document).querySelector(s); };
-  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
-
-  function euro(cents, dp) {
-    var n = cents / 100;
-    var d = (dp === undefined) ? 2 : dp;
-    var s = n.toFixed(d);
-    var parts = s.split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'pt' ? '.' : ',');
-    return '€' + (parts.length > 1 ? parts.join(lang === 'pt' ? ',' : '.') : parts[0]);
+  var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
+  function euro(c, dp) {
+    var d = dp === undefined ? 2 : dp, s = (c / 100).toFixed(d).split('.');
+    s[0] = s[0].replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'pt' ? '.' : ',');
+    return '€' + (s.length > 1 ? s.join(lang === 'pt' ? ',' : '.') : s[0]);
   }
-  function num(v, dp) {
-    var s = v.toFixed(dp === undefined ? 2 : dp);
-    return lang === 'pt' ? s.replace('.', ',') : s;
-  }
-  function el(tag, attrs, kids) {
+  function nm(v, dp) { var s = v.toFixed(dp === undefined ? 2 : dp); return lang === 'pt' ? s.replace('.', ',') : s; }
+  function el(tag, a, kids) {
     var n = document.createElementNS('http://www.w3.org/2000/svg', tag);
-    for (var k in attrs) { if (attrs[k] !== null && attrs[k] !== undefined) n.setAttribute(k, attrs[k]); }
+    for (var k in a) if (a[k] !== null && a[k] !== undefined) n.setAttribute(k, a[k]);
     (kids || []).forEach(function (c) { n.appendChild(c); });
     return n;
   }
-  function txt(x, y, s, attrs) {
-    var n = el('text', Object.assign({ x: x, y: y }, attrs || {}));
-    n.textContent = s;
-    return n;
-  }
-  function name(o) { return o[lang] || o.en; }
+  function tx(x, y, s, a) { var n = el('text', Object.assign({ x:x, y:y }, a || {})); n.textContent = s; return n; }
+  function loc(o) { return o[lang] || o.pt; }
 
-  /* =========================================================================
-     4. CONFIGURATOR
-     ========================================================================= */
-  var state = { spec: 1, tint: 0, opts: { TOUGH: false, LAM64: false, ACOUSTIC: false, WARM: true } };
-
-  function buildSelects() {
-    var sp = $('#spec');
-    sp.innerHTML = '';
-    SPECS.forEach(function (s, i) {
-      var o = document.createElement('option');
-      o.value = i;
-      o.textContent = s.code + ' · ' + name(s);
-      sp.appendChild(o);
-    });
-    sp.value = state.spec;
-
-    var tn = $('#tint');
-    tn.innerHTML = '';
-    TINTS.forEach(function (s, i) {
-      var o = document.createElement('option');
-      o.value = i;
-      o.textContent = name(s) + (s.up ? '  +' + euro(s.up, 2) + '/m²' : '');
-      tn.appendChild(o);
-    });
-    tn.value = state.tint;
-
-    var box = $('#opts');
-    box.innerHTML = '';
-    OPTIONS.forEach(function (o) {
-      var lab = document.createElement('label');
-      lab.className = 'opt';
+  /* --------------------------------------------------------------- builders */
+  function buildProducts() {
+    var box = $('#prods'); box.innerHTML = '';
+    PRODUCTS.forEach(function (p, i) {
+      var l = document.createElement('label'); l.className = 'prod';
       var inp = document.createElement('input');
-      inp.type = 'checkbox'; inp.value = o.code; inp.checked = !!state.opts[o.code];
-      inp.addEventListener('change', function () { state.opts[o.code] = inp.checked; compute(); });
-      var s1 = document.createElement('span'); s1.className = 'opt__t'; s1.textContent = name(o);
-      var s2 = document.createElement('span'); s2.className = 'opt__p'; s2.textContent = '+' + euro(o.up, 2) + '/m²';
-      lab.appendChild(inp); lab.appendChild(s1); lab.appendChild(s2);
-      box.appendChild(lab);
+      inp.type = 'radio'; inp.name = 'prod'; inp.checked = st.prod === i;
+      inp.addEventListener('change', function () { st.prod = i; calc(); });
+      /* The swatch shows the GLASS, so its colours are fixed rather than
+         themed: tying clear glass to a dark surface token made the two
+         products look identical in dark mode. */
+      var sw = document.createElement('div'); sw.className = 'prod__sw';
+      sw.style.background = p.swatch;
+      var n = document.createElement('div'); n.className = 'prod__n'; n.textContent = t(p.k);
+      var d = document.createElement('div'); d.className = 'prod__d'; d.textContent = t(p.d);
+      l.appendChild(inp); l.appendChild(sw); l.appendChild(n); l.appendChild(d);
+      box.appendChild(l);
     });
   }
 
-  function compute() {
+  function buildThickness() {
+    var box = $('#thick'); box.innerHTML = '';
+    THICKNESS.forEach(function (th, i) {
+      var l = document.createElement('label'); l.className = 'chipbtn';
+      var inp = document.createElement('input');
+      inp.type = 'radio'; inp.name = 'thick'; inp.checked = st.thick === i;
+      inp.addEventListener('change', function () { st.thick = i; calc(); });
+      var s = document.createElement('span'); s.textContent = th.mm + ' mm';
+      l.appendChild(inp); l.appendChild(s);
+      box.appendChild(l);
+    });
+  }
+
+  function buildPayments() {
+    var box = $('#pays'); box.innerHTML = '';
+    PAYMENTS.forEach(function (p, i) {
+      var l = document.createElement('label'); l.className = 'pay';
+      var inp = document.createElement('input');
+      inp.type = 'radio'; inp.name = 'pay'; inp.checked = st.pay === i;
+      inp.addEventListener('change', function () { st.pay = i; });
+      var w = document.createElement('div');
+      w.innerHTML = '<div class="pay__n"></div><div class="pay__d"></div>';
+      w.firstChild.textContent = t(p.k);
+      w.lastChild.textContent = t(p.d);
+      l.appendChild(inp); l.appendChild(w);
+      box.appendChild(l);
+    });
+  }
+
+  function buildSlots() {
+    var s = $('#slot'); s.innerHTML = '';
+    SLOTS.forEach(function (o) {
+      var op = document.createElement('option');
+      op.value = o.v; op.textContent = loc(o);
+      s.appendChild(op);
+    });
+  }
+
+  /* ------------------------------------------------------------------ price */
+  function calc() {
     var w = parseInt($('#w').value, 10) || 0;
     var h = parseInt($('#h').value, 10) || 0;
-    var qty = Math.max(1, parseInt($('#qty').value, 10) || 1);
-    var spec = SPECS[state.spec];
-    var tint = TINTS[state.tint];
+    var q = Math.max(1, parseInt($('#q').value, 10) || 1);
+    var p = PRODUCTS[st.prod], th = THICKNESS[st.thick];
 
     var area = (w * h) / 1e6;
-    var billable = Math.max(area, MIN_BILLABLE);
-
-    var rate = spec.rate + tint.up;
-    var lead = spec.lead + tint.lead;
-    var rw = spec.rw;
-    var chosen = [];
-
-    OPTIONS.forEach(function (o) {
-      if (!state.opts[o.code]) return;
-      chosen.push(o);
-      rate += o.up;
-      lead += o.lead;
-      rw += o.rw;
-    });
-
-    var unit = Math.round(billable * rate);
-    var net = unit * qty;
+    var bill = Math.max(area, MIN_M2);
+    var rate = th.rate + p.uplift;
+    var unit = Math.round(bill * rate);
+    var net = unit * q;
     var vat = Math.round(net * VAT);
+    var kg = area * th.kgm2;
 
-    var g = spec.g * tint.g;
-    var lt = spec.lt * tint.lt;
-
-    /* Output */
-    $('#oTotal').textContent = euro(net, 2);
-    $('#oLead').textContent = lead + ' ' + t('days');
-    $('#oArea').textContent = num(area, 3) + ' m²';
-    $('#oBillable').textContent = num(billable, 3) + ' m²' + (billable > area ? ' *' : '');
-    $('#oRate').textContent = euro(rate, 2) + '/m²';
+    $('#oTotal').textContent = euro(net + vat, 2);
+    $('#oLead').textContent = th.lead + ' ' + (th.lead === 1 ? t('day') : t('days'));
+    $('#oArea').textContent = nm(area, 3) + ' m²';
+    $('#oBill').textContent = nm(bill, 3) + ' m²';
+    $('#oRate').textContent = euro(rate, 2);
     $('#oUnit').textContent = euro(unit, 2);
+    $('#oNet').textContent = euro(net, 2);
     $('#oVat').textContent = euro(vat, 2);
     $('#oGross').textContent = euro(net + vat, 2);
-    $('#pUg').textContent = num(spec.ug, 2);
-    $('#pG').textContent = num(g, 2);
-    $('#pLt').textContent = Math.round(lt * 100);
-    $('#pRw').textContent = rw;
 
-    /* Validation and advisory flags */
-    var flags = [];
-    if (w > MAX_W || h > MAX_H) {
-      flags.push(['bad', fill('tooBig', { w: MAX_W, h: MAX_H })]);
-    }
-    if (w < MIN_W || h < MIN_H) {
-      flags.push(['bad', t('tooSmall')]);
-    }
-    if (state.opts.TOUGH && area > 4.2) {
-      flags.push(['bad', fill('toughLimit', { a: num(area, 2) })]);
-    }
-    if (spec.maxA && area > spec.maxA) {
-      flags.push(['warn', fill('toughLimit', { a: num(area, 2) })]);
-    }
-    if (billable > area) {
-      flags.push(['warn', fill('minBillable', { a: num(area, 3) })]);
-    }
-    if (area >= 2.6) {
-      flags.push(['warn', fill('handling', { a: num(area, 2) })]);
-    }
-    if (state.opts.WARM) {
-      flags.push(['ok', t('warmEdge')]);
-    }
+    var fl = [];
+    if (w > MAX_W || h > MAX_H) fl.push(['b', t('tooBig')]);
+    if (w < MIN_W || h < MIN_H) fl.push(['b', t('tooSmall')]);
+    if (bill > area && area > 0) fl.push(['w', t('minBill')]);
+    if (area >= 1.5) fl.push(['w', fill('heavy', { a: nm(area, 2) })]);
+    if (kg >= 20) fl.push(['o', fill('thick', { t: th.mm, kg: nm(kg, 0) })]);
 
-    var fb = $('#flags');
-    fb.innerHTML = '';
-    flags.forEach(function (f) {
+    var box = $('#flags'); box.innerHTML = '';
+    fl.forEach(function (f) {
       var d = document.createElement('div');
-      d.className = 'flag flag--' + (f[0] === 'bad' ? 'bad' : f[0] === 'warn' ? 'warn' : 'ok');
-      d.innerHTML = '<span class="flag__i">' + (f[0] === 'ok' ? 'i' : '!') + '</span><span></span>';
+      d.className = 'flag flag--' + f[0];
+      d.innerHTML = '<span class="flag__i">' + (f[0] === 'o' ? 'i' : '!') + '</span><span></span>';
       d.lastChild.textContent = f[1];
-      fb.appendChild(d);
+      box.appendChild(d);
     });
 
-    drawSection(spec, tint, chosen);
-    drawElevation(w, h, tint);
+    drawPiece(w, h, p, th);
   }
 
-  /* --- Section: panes and cavities drawn to true relative scale ----------- */
-  function drawSection(spec, tint, chosen) {
-    var svg = $('#section');
-    svg.innerHTML = '';
-    var W = 420, H = 178;
-    var left = 58, right = 372, top = 30, bot = 128;
-
-    var layers = [];
-    for (var i = 0; i < spec.panes.length; i++) {
-      layers.push({ kind: 'pane', mm: spec.panes[i], idx: i });
-      if (i < spec.cavities.length) layers.push({ kind: 'gas', mm: spec.cavities[i], idx: i });
-    }
-    var totalMm = layers.reduce(function (a, l) { return a + l.mm; }, 0);
-    var px = (right - left) / totalMm;
-
-    svg.appendChild(txt(left, 18, t('outside'), {
-      'font-family': 'var(--mono)', 'font-size': 9.5, fill: 'var(--ink-3)', 'letter-spacing': '0.06em'
-    }));
-    var ins = txt(right, 18, t('inside'), {
-      'font-family': 'var(--mono)', 'font-size': 9.5, fill: 'var(--ink-3)',
-      'text-anchor': 'end', 'letter-spacing': '0.06em'
-    });
-    svg.appendChild(ins);
-
-    var x = left;
-    layers.forEach(function (l) {
-      var wpx = l.mm * px;
-      if (l.kind === 'pane') {
-        var isOuter = l.idx === 0;
-        svg.appendChild(el('rect', {
-          x: x, y: top, width: wpx, height: bot - top,
-          fill: 'var(--glass-face)', stroke: 'var(--glass-edge)', 'stroke-width': 1
-        }));
-        if (isOuter && tint.hex) {
-          svg.appendChild(el('rect', {
-            x: x, y: top, width: wpx, height: bot - top,
-            fill: tint.hex, opacity: tint.op
-          }));
-        }
-      } else {
-        svg.appendChild(el('rect', {
-          x: x, y: top, width: wpx, height: bot - top,
-          fill: 'var(--gas)', stroke: 'var(--edge)', 'stroke-width': 1, 'stroke-dasharray': '2 2'
-        }));
-        svg.appendChild(el('rect', {
-          x: x + 1, y: bot - 15, width: wpx - 2, height: 14,
-          fill: 'var(--spacer)', rx: 1
-        }));
-        svg.appendChild(txt(x + wpx / 2, (top + bot) / 2 - 2, spec.gas, {
-          'font-family': 'var(--mono)', 'font-size': 10, fill: 'var(--ink-2)', 'text-anchor': 'middle'
-        }));
-        svg.appendChild(txt(x + wpx / 2, (top + bot) / 2 + 10, t('gasLbl'), {
-          'font-family': 'var(--mono)', 'font-size': 8, fill: 'var(--ink-3)', 'text-anchor': 'middle'
-        }));
-      }
-      /* dimension tick + mm label */
-      svg.appendChild(el('line', {
-        x1: x, y1: bot + 8, x2: x, y2: bot + 14, stroke: 'var(--edge-strong)', 'stroke-width': 1
-      }));
-      svg.appendChild(txt(x + wpx / 2, bot + 26, String(l.mm), {
-        'font-family': 'var(--mono)', 'font-size': 10, fill: 'var(--ink-2)', 'text-anchor': 'middle'
-      }));
-      x += wpx;
-    });
-    svg.appendChild(el('line', {
-      x1: right, y1: bot + 8, x2: right, y2: bot + 14, stroke: 'var(--edge-strong)', 'stroke-width': 1
-    }));
-    svg.appendChild(el('line', {
-      x1: left, y1: bot + 11, x2: right, y2: bot + 11, stroke: 'var(--edge-strong)', 'stroke-width': 1
-    }));
-
-    /* Low-E coating marker on surface 2 — the cavity face of the outer pane */
-    if (spec.coating) {
-      var cx = left + spec.panes[0] * px;
-      svg.appendChild(el('line', {
-        x1: cx, y1: top, x2: cx, y2: bot, stroke: 'var(--accent)', 'stroke-width': 2.5
-      }));
-      svg.appendChild(txt(cx + 6, top + 12, t('coatingLbl'), {
-        'font-family': 'var(--mono)', 'font-size': 8.5, fill: 'var(--accent)'
-      }));
-    }
-
-    var spacerTxt = state.opts.WARM ? t('spacerLbl') : t('spacerAlu');
-    svg.appendChild(txt(left, H - 6, spec.code + '   ·   ' + spacerTxt + '   ·   ' + num(totalMm, 0) + ' mm', {
-      'font-family': 'var(--mono)', 'font-size': 9.5, fill: 'var(--ink-3)'
-    }));
-  }
-
-  /* --- Elevation: the opening, to proportion ------------------------------ */
-  function drawElevation(w, h, tint) {
-    var svg = $('#elevation');
-    svg.innerHTML = '';
+  /* One drawing: the pane in elevation, with a thickness strip along the edge
+     drawn to the same scale. A glazier reads size and thickness together. */
+  function drawPiece(w, h, p, th) {
+    var svg = $('#piece'); svg.innerHTML = '';
     var maxW = 210, maxH = 120;
-    var ww = Math.max(w, 1), hh = Math.max(h, 1);
-    var sc = Math.min(maxW / ww, maxH / hh);
-    var bw = ww * sc, bh = hh * sc;
-    var ox = 130, oy = 26;
+    var sc = Math.min(maxW / Math.max(w, 1), maxH / Math.max(h, 1));
+    var bw = Math.max(6, w * sc), bh = Math.max(6, h * sc);
+    var ox = 128, oy = 30;
 
-    svg.appendChild(el('rect', {
-      x: ox, y: oy, width: bw, height: bh, rx: 1,
-      fill: 'var(--glass-face)', stroke: 'var(--glass-edge)', 'stroke-width': 1.5
-    }));
-    if (tint.hex) {
-      svg.appendChild(el('rect', {
-        x: ox, y: oy, width: bw, height: bh, rx: 1, fill: tint.hex, opacity: tint.op
-      }));
-    }
-    /* reflection line — the visual cue that reads as glass */
-    svg.appendChild(el('line', {
-      x1: ox + bw * 0.18, y1: oy + bh, x2: ox + bw * 0.62, y2: oy,
-      stroke: '#FFFFFF', 'stroke-width': 6, opacity: 0.10
-    }));
+    svg.appendChild(el('rect', { x:ox, y:oy, width:bw, height:bh, rx:1,
+      fill:'var(--glass)', stroke:'var(--glass-e)', 'stroke-width':1.5 }));
+    if (p.tint) svg.appendChild(el('rect', { x:ox, y:oy, width:bw, height:bh, rx:1, fill:p.tint, opacity:p.op }));
+    svg.appendChild(el('line', { x1:ox + bw * 0.2, y1:oy + bh, x2:ox + bw * 0.6, y2:oy,
+      stroke:'#FFFFFF', 'stroke-width':7, opacity:0.12 }));
 
-    /* Width dimension, below */
-    var dy = oy + bh + 16;
-    svg.appendChild(el('line', { x1: ox, y1: dy, x2: ox + bw, y2: dy, stroke: 'var(--edge-strong)', 'stroke-width': 1 }));
-    svg.appendChild(el('line', { x1: ox, y1: dy - 4, x2: ox, y2: dy + 4, stroke: 'var(--edge-strong)', 'stroke-width': 1 }));
-    svg.appendChild(el('line', { x1: ox + bw, y1: dy - 4, x2: ox + bw, y2: dy + 4, stroke: 'var(--edge-strong)', 'stroke-width': 1 }));
-    svg.appendChild(txt(ox + bw / 2, dy + 16, w + ' mm', {
-      'font-family': 'var(--mono)', 'font-size': 10.5, fill: 'var(--ink-2)', 'text-anchor': 'middle'
-    }));
+    /* width */
+    var dy = oy + bh + 17;
+    svg.appendChild(el('line', { x1:ox, y1:dy, x2:ox + bw, y2:dy, stroke:'var(--edge-2)', 'stroke-width':1 }));
+    svg.appendChild(el('line', { x1:ox, y1:dy - 4, x2:ox, y2:dy + 4, stroke:'var(--edge-2)', 'stroke-width':1 }));
+    svg.appendChild(el('line', { x1:ox + bw, y1:dy - 4, x2:ox + bw, y2:dy + 4, stroke:'var(--edge-2)', 'stroke-width':1 }));
+    svg.appendChild(tx(ox + bw / 2, dy + 17, w + ' mm',
+      { 'font-family':'var(--mono)', 'font-size':11, fill:'var(--ink-2)', 'text-anchor':'middle' }));
 
-    /* Height dimension, left */
-    var dx = ox - 14;
-    svg.appendChild(el('line', { x1: dx, y1: oy, x2: dx, y2: oy + bh, stroke: 'var(--edge-strong)', 'stroke-width': 1 }));
-    svg.appendChild(el('line', { x1: dx - 4, y1: oy, x2: dx + 4, y2: oy, stroke: 'var(--edge-strong)', 'stroke-width': 1 }));
-    svg.appendChild(el('line', { x1: dx - 4, y1: oy + bh, x2: dx + 4, y2: oy + bh, stroke: 'var(--edge-strong)', 'stroke-width': 1 }));
-    var ht = txt(dx - 8, oy + bh / 2, h + ' mm', {
-      'font-family': 'var(--mono)', 'font-size': 10.5, fill: 'var(--ink-2)', 'text-anchor': 'middle'
-    });
-    ht.setAttribute('transform', 'rotate(-90 ' + (dx - 8) + ' ' + (oy + bh / 2) + ')');
+    /* height */
+    var dx = ox - 15;
+    svg.appendChild(el('line', { x1:dx, y1:oy, x2:dx, y2:oy + bh, stroke:'var(--edge-2)', 'stroke-width':1 }));
+    svg.appendChild(el('line', { x1:dx - 4, y1:oy, x2:dx + 4, y2:oy, stroke:'var(--edge-2)', 'stroke-width':1 }));
+    svg.appendChild(el('line', { x1:dx - 4, y1:oy + bh, x2:dx + 4, y2:oy + bh, stroke:'var(--edge-2)', 'stroke-width':1 }));
+    var ht = tx(dx - 9, oy + bh / 2, h + ' mm',
+      { 'font-family':'var(--mono)', 'font-size':11, fill:'var(--ink-2)', 'text-anchor':'middle' });
+    ht.setAttribute('transform', 'rotate(-90 ' + (dx - 9) + ' ' + (oy + bh / 2) + ')');
     svg.appendChild(ht);
 
-    var a = (w * h) / 1e6;
-    svg.appendChild(txt(ox + bw + 14, oy + 12, num(a, 3) + ' m²', {
-      'font-family': 'var(--mono)', 'font-size': 11, fill: 'var(--ink)', 'font-weight': 500
-    }));
-    svg.appendChild(txt(ox + bw + 14, oy + 26, name(TINTS[state.tint]), {
-      'font-family': 'var(--mono)', 'font-size': 9, fill: 'var(--ink-3)'
-    }));
+    /* thickness, edge-on, exaggerated x6 so 4 mm and 10 mm read apart */
+    var tw = th.mm * 1.7;
+    var tx0 = ox + bw + 26;
+    svg.appendChild(el('rect', { x:tx0, y:oy, width:tw, height:bh,
+      fill:p.tint || 'var(--glass)', opacity:p.tint ? 0.75 : 1,
+      stroke:'var(--glass-e)', 'stroke-width':1 }));
+    svg.appendChild(tx(tx0 + tw / 2, oy - 9, th.mm + ' mm',
+      { 'font-family':'var(--mono)', 'font-size':10.5, 'font-weight':500,
+        fill:'var(--ink-2)', 'text-anchor':'middle' }));
+
+    svg.appendChild(tx(tx0 + tw + 16, oy + 13, nm((w * h) / 1e6, 3) + ' m²',
+      { 'font-family':'var(--mono)', 'font-size':11.5, 'font-weight':500, fill:'var(--ink)' }));
+    svg.appendChild(tx(tx0 + tw + 16, oy + 28, t(PRODUCTS[st.prod].k),
+      { 'font-family':'var(--mono)', 'font-size':9.5, fill:'var(--ink-3)' }));
   }
 
-  /* =========================================================================
-     5. ORDER QUEUE
-     Values are NOT hard-coded: each order lists its schedule of sizes, and the
-     totals are computed with the same pricing function the configurator uses.
-     A manager who checks the arithmetic finds it consistent.
-     ========================================================================= */
-  function priceUnit(specIdx, tintIdx, optCodes, w, h) {
-    var spec = SPECS[specIdx], tint = TINTS[tintIdx];
+  /* ------------------------------------------------------------------ list */
+  /* Totals are computed from the pieces with the same price function the order
+     form uses, so the arithmetic holds if anyone checks it. */
+  function price(prodId, mm, w, h) {
+    var p = PRODUCTS.filter(function (x) { return x.id === prodId; })[0];
+    var th = THICKNESS.filter(function (x) { return x.mm === mm; })[0];
     var area = (w * h) / 1e6;
-    var billable = Math.max(area, MIN_BILLABLE);
-    var rate = spec.rate + tint.up;
-    var lead = spec.lead + tint.lead;
-    OPTIONS.forEach(function (o) {
-      if (optCodes.indexOf(o.code) !== -1) { rate += o.up; lead += o.lead; }
-    });
-    return { area: area, billable: billable, rate: rate, lead: lead, unit: Math.round(billable * rate) };
-  }
-
-  function specLabel(specIdx, tintIdx, optCodes) {
-    var bits = [SPECS[specIdx].code];
-    if (tintIdx > 0) bits.push(name(TINTS[tintIdx]));
-    optCodes.forEach(function (c) {
-      if (c === 'WARM') return;
-      var o = OPTIONS.filter(function (x) { return x.code === c; })[0];
-      if (o) bits.push(name(o));
-    });
-    return bits.join(' · ');
+    return { area:area, unit:Math.round(Math.max(area, MIN_M2) * (th.rate + p.uplift)) };
   }
 
   var ORDERS = [
-    {
-      ref: 'ORD-2026-001886', acct: 'Construtora Miradouro, S.A.', acctRef: 'ACC-000255',
-      status: 'awaiting', pay: 'terms', sev: 'critical', flag: 'overLimit', overBy: '2.281',
-      promised: '08.09.2026', window: '08.09, 07:00–10:00', method: 'own_fleet',
-      credit: { limit: 2500000, used: 2380000, terms: 45, score: 71 },
-      items: [
-        { pos: 'Bloco A / W01', w: 1480, h: 1980, s: 1, t: 3, o: ['WARM'], q: 4 },
-        { pos: 'Bloco A / W02', w: 1180, h: 1420, s: 1, t: 3, o: ['WARM'], q: 2 },
-        { pos: 'Bloco B / P01', w: 2100, h: 1800, s: 1, t: 3, o: ['TOUGH', 'WARM'], q: 2 }
-      ]
-    },
-    {
-      ref: 'ORD-2026-001884', acct: 'Vidraçaria Costa &amp; Filhos, Lda', acctRef: 'ACC-000118',
-      status: 'awaiting', pay: 'paid', sev: 'good', flag: 'clean',
-      promised: '05.09.2026', window: '05.09, 13:00–16:00', method: 'own_fleet',
-      credit: { limit: 1850000, used: 0, terms: 30, score: 92 },
-      items: [
-        { pos: 'Rua Formosa / J01', w: 1080, h: 1420, s: 1, t: 0, o: ['TOUGH', 'WARM'], q: 12 }
-      ]
-    },
-    {
-      ref: 'ORD-2026-001885', acct: 'JanelaNova Instalações, Lda', acctRef: 'ACC-000204',
-      status: 'production', pay: 'terms', sev: 'neutral', flag: null,
-      promised: '11.09.2026', window: '11.09, 08:00–12:00', method: 'carrier',
-      credit: { limit: 1200000, used: 431000, terms: 30, score: 84 },
-      items: [
-        { pos: 'Lote 1 / J01', w: 900, h: 1200, s: 1, t: 0, o: ['WARM'], q: 20 },
-        { pos: 'Lote 1 / J02', w: 1400, h: 1200, s: 1, t: 0, o: ['WARM'], q: 14 }
-      ]
-    },
-    {
-      ref: 'ORD-2026-001887', acct: 'Alumínios do Vale, Unipessoal Lda', acctRef: 'ACC-000301',
-      status: 'prepay', pay: 'pending', sev: 'warning', flag: 'unverified',
-      promised: '—', window: '—', method: 'collection',
-      credit: { limit: 0, used: 0, terms: 0, score: null },
-      items: [
-        { pos: 'Amostra / A01', w: 800, h: 1000, s: 2, t: 1, o: ['WARM'], q: 4 }
-      ]
-    },
-    {
-      ref: 'ORD-2026-001883', acct: 'Habitat Reabilitação, Lda', acctRef: 'ACC-000162',
-      status: 'dispatched', pay: 'terms', sev: 'warning', flag: 'overdue',
-      promised: '02.09.2026', window: '02.09, 07:00–11:00', method: 'own_fleet',
-      credit: { limit: 900000, used: 612000, terms: 30, score: 52 },
-      items: [
-        { pos: 'Bloco C / W05', w: 1200, h: 1550, s: 3, t: 0, o: ['WARM'], q: 16 }
-      ]
-    }
+    { ref:'ENC-2026-0151', who:'Vidraçaria Costa', s:'new', pay:'mbway', paid:true,
+      addr:'Rua de Santa Catarina 1234\n4000-447 Porto', slot:'Sexta, 4 Set · 09:00–12:00',
+      slotEn:'Friday 4 Sep · 09:00–12:00',
+      pieces:[{ n:'Montra', prod:'fumado', mm:6, w:1400, h:1100, q:4 }] },
+    { ref:'ENC-2026-0150', who:'JanelaNova', s:'making', pay:'cash', paid:false,
+      addr:'Av. da Liberdade 88\n4700-234 Braga', slot:'Sexta, 4 Set · 14:00–17:00',
+      slotEn:'Friday 4 Sep · 14:00–17:00',
+      pieces:[{ n:'Janelas A', prod:'simples', mm:4, w:900, h:1200, q:8 },
+              { n:'Janelas B', prod:'simples', mm:4, w:600, h:1200, q:4 }] },
+    { ref:'ENC-2026-0149', who:'Habitat Reabilitação', s:'ready', pay:'transfer', paid:true,
+      addr:'Rua do Brasil 512\n3030-775 Coimbra', slot:'Segunda, 7 Set · 09:00–12:00',
+      slotEn:'Monday 7 Sep · 09:00–12:00',
+      pieces:[{ n:'Portas', prod:'simples', mm:8, w:800, h:2000, q:6 }] },
+    { ref:'ENC-2026-0148', who:'Construtora Miradouro', s:'done', pay:'transfer', paid:true,
+      addr:'Rua Castilho 40\n1250-070 Lisboa', slot:'Terça, 1 Set · 09:00–12:00',
+      slotEn:'Tuesday 1 Sep · 09:00–12:00',
+      pieces:[{ n:'Divisórias', prod:'fumado', mm:10, w:1000, h:900, q:2 }] }
   ];
 
-  ORDERS.forEach(function (ord) {
-    var m2 = 0, net = 0, units = 0, lead = 0;
-    ord.items.forEach(function (it) {
-      var p = priceUnit(it.s, it.t, it.o, it.w, it.h);
-      it.p = p;
-      it.m2 = p.area * it.q;
-      it.net = p.unit * it.q;
-      m2 += it.m2; net += it.net; units += it.q;
-      lead = Math.max(lead, p.lead);
+  ORDERS.forEach(function (o) {
+    var m2 = 0, net = 0, un = 0;
+    o.pieces.forEach(function (pc) {
+      var r = price(pc.prod, pc.mm, pc.w, pc.h);
+      pc.area = r.area; pc.net = r.unit * pc.q;
+      m2 += r.area * pc.q; net += pc.net; un += pc.q;
     });
-    ord.m2 = m2; ord.net = net; ord.units = units; ord.lead = lead;
+    o.m2 = m2; o.net = net; o.un = un; o.gross = net + Math.round(net * VAT);
   });
 
-  var STATUS_CHIP = {
-    awaiting:   ['accent', 'stAwaiting'],
-    production: ['neutral', 'stProduction'],
-    dispatched: ['good', 'stDispatched'],
-    prepay:     ['warn', 'stPrepay']
-  };
-  var PAY_CHIP = {
-    paid:    ['good', 'payPaid'],
-    terms:   ['neutral', 'payTerms'],
-    pending: ['warn', 'payPending']
-  };
-  var METHOD = {
-    own_fleet:  { en: 'Own fleet, A-frame', pt: 'Frota própria, cavalete' },
-    carrier:    { en: 'Carrier, stillage', pt: 'Transportador, bastidor' },
-    collection: { en: 'Collection', pt: 'Recolha no local' }
-  };
+  var CHIP = { new:['a','sNew'], making:['w','sMaking'], ready:['g','sReady'], done:['n','sDone'] };
+  var PAYNAME = { mbway:'payMb', transfer:'payTr', cash:'payCo' };
+  var sel = 0, accepted = {};
 
-  var selected = 0;
-  var acceptedRefs = {};
+  function chip(k, s) { return '<span class="chip chip--' + k + '"><span class="chip__d"></span>' + s + '</span>'; }
 
-  function chip(kind, label) {
-    return '<span class="chip chip--' + kind + '"><span class="chip__d"></span>' + label + '</span>';
-  }
-
-  function renderQueue() {
-    var q = $('#queue');
-    q.innerHTML = '';
-    $('#queueCount').innerHTML = '<span class="chip__d"></span>' + ORDERS.length;
-
-    ORDERS.forEach(function (ord, i) {
+  function renderList() {
+    var box = $('#list'); box.innerHTML = '';
+    ORDERS.forEach(function (o, i) {
       var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'qrow';
-      b.setAttribute('data-sev', ord.sev);
-      b.setAttribute('aria-current', i === selected ? 'true' : 'false');
-
-      var st = acceptedRefs[ord.ref] ? ['good', 'accepted'] : STATUS_CHIP[ord.status];
-
+      b.type = 'button'; b.className = 'item';
+      b.setAttribute('data-s', o.s);
+      b.setAttribute('aria-current', i === sel ? 'true' : 'false');
+      var c = accepted[o.ref] ? ['g','accepted'] : CHIP[o.s];
+      var kinds = o.pieces.map(function (p) { return t(PRODUCTS.filter(function (x){return x.id===p.prod;})[0].k); });
+      var uniq = kinds.filter(function (v, k) { return kinds.indexOf(v) === k; }).join(' + ');
       b.innerHTML =
         '<div>' +
-          '<div class="qrow__ref">' + ord.ref + '</div>' +
-          '<div class="qrow__acct">' + ord.acct + '</div>' +
-          '<div class="qrow__meta">' +
-            fill('totalUnits', { n: ord.units }) + ' · ' +
-            fill('mSquared', { n: num(ord.m2, 1) }) + ' · ' + t('promised') + ' ' + ord.promised +
-          '</div>' +
+          '<div class="item__r">' + o.ref + '</div>' +
+          '<div class="item__c">' + o.who + '</div>' +
+          '<div class="item__m">' + uniq + ' · ' + o.un + ' un · ' + nm(o.m2, 1) + ' m²</div>' +
         '</div>' +
-        '<div class="qrow__right">' +
-          '<div class="qrow__val">' + euro(ord.net, 2) + '</div>' +
-          chip(st[0], t(st[1])) +
+        '<div class="item__right">' +
+          '<div class="item__v">' + euro(o.gross, 2) + '</div>' +
+          chip(c[0], t(c[1])) +
         '</div>';
-
-      b.addEventListener('click', function () { selected = i; renderQueue(); renderDetail(); });
-      q.appendChild(b);
+      b.addEventListener('click', function () { sel = i; renderList(); renderDetail(); });
+      box.appendChild(b);
     });
   }
 
   function renderDetail() {
-    var box = $('#detail');
-    box.innerHTML = '';
-    var ord = ORDERS[selected];
-    if (!ord) {
-      box.innerHTML = '<div class="panel"><p class="note">' + t('selectOrder') + '</p></div>';
-      return;
-    }
+    var box = $('#detail'); box.innerHTML = '';
+    var o = ORDERS[sel];
+    if (!o) { box.innerHTML = '<div class="panel"><p class="note">' + t('pick') + '</p></div>'; return; }
 
-    var isAccepted = !!acceptedRefs[ord.ref];
-    var wrap = document.createElement('div');
-    wrap.className = 'panel stack';
-
-    var flagHtml = '';
-    if (ord.flag) {
-      var kind = ord.flag === 'clean' ? 'ok' : (ord.flag === 'overLimit' ? 'bad' : 'warn');
-      var msg = ord.flag === 'overLimit'
-        ? fill('flagOverLimit', { n: ord.overBy })
-        : t('flag' + ord.flag.charAt(0).toUpperCase() + ord.flag.slice(1));
-      flagHtml = '<div class="flag flag--' + kind + '"><span class="flag__i">' +
-        (kind === 'ok' ? 'i' : '!') + '</span><span>' + msg + '</span></div>';
-    }
-
-    var rows = ord.items.map(function (it) {
-      return '<tr>' +
-        '<td>' + it.pos + '</td>' +
-        '<td>' + it.w + ' × ' + it.h + '</td>' +
-        '<td class="t">' + specLabel(it.s, it.t, it.o) + '</td>' +
-        '<td class="num">' + it.q + '</td>' +
-        '<td class="num">' + num(it.m2, 2) + '</td>' +
-        '<td class="num">' + euro(it.net, 2) + '</td>' +
-        '</tr>';
+    var rows = o.pieces.map(function (p) {
+      return '<tr><td class="t">' + p.n + '</td>' +
+        '<td>' + p.w + ' × ' + p.h + ' · ' + p.mm + ' mm</td>' +
+        '<td class="n">' + p.q + '</td>' +
+        '<td class="n">' + nm(p.area * p.q, 2) + '</td>' +
+        '<td class="n">' + euro(p.net, 2) + '</td></tr>';
     }).join('');
 
-    var c = ord.credit;
-    var avail = Math.max(0, c.limit - c.used);
-
-    wrap.innerHTML =
-      '<div class="row row--between" style="align-items:flex-start">' +
-        '<div>' +
-          '<div class="qrow__ref">' + ord.ref + '</div>' +
-          '<div style="font:600 16px/1.3 var(--display);letter-spacing:-0.01em">' + ord.acct + '</div>' +
-          '<div class="qrow__meta">' + ord.acctRef + '</div>' +
-        '</div>' +
-        '<div style="text-align:right">' +
-          '<div style="font:700 22px/1.1 var(--display);letter-spacing:-0.02em;font-variant-numeric:tabular-nums">' +
-            euro(ord.net, 2) + '</div>' +
-          '<div style="margin-top:5px">' + chip(PAY_CHIP[ord.pay][0], t(PAY_CHIP[ord.pay][1])) + '</div>' +
-        '</div>' +
+    var d = document.createElement('div');
+    d.className = 'panel stack';
+    d.innerHTML =
+      '<div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap">' +
+        '<div><div class="item__r">' + o.ref + '</div>' +
+        '<div style="font:600 17px/1.3 var(--display);letter-spacing:-.01em">' + o.who + '</div></div>' +
+        '<div style="font:700 21px/1.1 var(--display);letter-spacing:-.02em;font-variant-numeric:tabular-nums">' +
+          euro(o.gross, 2) + '</div>' +
       '</div>' +
-      flagHtml +
+      '<div class="scroll"><table class="tbl"><thead><tr>' +
+        '<th>' + t('colPiece') + '</th><th>' + t('colSize') + '</th>' +
+        '<th class="n">' + t('colQty') + '</th><th class="n">' + t('colM2') + '</th>' +
+        '<th class="n">' + t('colVal') + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
       '<div>' +
-        '<p class="eyebrow" style="margin-bottom:6px">' + t('schedule') + '</p>' +
-        '<div class="scroll-x"><table class="itemtable"><thead><tr>' +
-          '<th>' + t('colPos') + '</th><th>' + t('colSize') + '</th><th>' + t('colSpec') + '</th>' +
-          '<th class="num">' + t('colQty') + '</th><th class="num">' + t('colM2') + '</th>' +
-          '<th class="num">' + t('colValue') + '</th>' +
-        '</tr></thead><tbody>' + rows + '</tbody></table></div>' +
+        '<p class="sect__t" style="margin-bottom:6px">' + t('lblAddr') + '</p>' +
+        '<div class="addr">' + o.addr + '</div>' +
       '</div>' +
-      '<div class="readout">' +
-        '<div class="readout__row"><span>' + t('window') + '</span><span>' + ord.window + '</span></div>' +
-        '<div class="readout__row"><span>' + t('method') + '</span><span>' + name(METHOD[ord.method]) + '</span></div>' +
-        '<div class="readout__row"><span>' + t('creditLimit') + '</span><span>' +
-          (c.limit ? euro(c.limit, 0) : '—') + '</span></div>' +
-        '<div class="readout__row"><span>' + t('creditUsed') + '</span><span>' +
-          (c.limit ? euro(c.used, 0) : '—') + '</span></div>' +
-        '<div class="readout__row"><span>' + t('creditAvail') + '</span><span>' +
-          (c.limit ? euro(avail, 0) : t('prepay')) + '</span></div>' +
-        '<div class="readout__row"><span>' + t('creditTerms') + '</span><span>' +
-          (c.terms ? fill('netDays', { d: c.terms }) : t('prepay')) + '</span></div>' +
-        '<div class="readout__row readout__row--sum"><span>' + t('creditScore') + '</span><span>' +
-          (c.score === null ? '—' : c.score + ' / 100') + '</span></div>' +
+      '<div class="rows">' +
+        '<div class="rw"><span>' + t('lblSlot') + '</span><span>' + (lang === 'pt' ? o.slot : o.slotEn) + '</span></div>' +
+        '<div class="rw"><span>' + t('lblPay') + '</span><span>' + t(PAYNAME[o.pay]) +
+          (o.paid ? ' ✓' : '') + '</span></div>' +
       '</div>' +
-      '<div class="row" id="actions"></div>';
+      '<div id="act"></div>';
+    box.appendChild(d);
 
-    box.appendChild(wrap);
-
-    var actions = $('#actions', wrap);
-    if (isAccepted) {
-      actions.innerHTML = '<div class="flag flag--ok" style="width:100%">' +
-        '<span class="flag__i">✓</span><span>' +
-        fill('invoiceIssued', { n: 'FT2026/00' + (418 + selected) }) + '</span></div>';
-    } else {
-      var ok = document.createElement('button');
-      ok.type = 'button';
-      ok.className = 'btn btn--primary';
-      ok.textContent = t('accept');
-      ok.addEventListener('click', function () {
-        acceptedRefs[ord.ref] = true;
-        renderQueue();
-        renderDetail();
-      });
-      var no = document.createElement('button');
-      no.type = 'button';
-      no.className = 'btn btn--ghost';
-      no.textContent = t('decline');
-      actions.appendChild(ok);
-      actions.appendChild(no);
+    var act = $('#act', d);
+    if (o.s === 'new' && !accepted[o.ref]) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'btn btn--p btn--block'; b.textContent = t('accept');
+      b.addEventListener('click', function () { accepted[o.ref] = true; renderList(); renderDetail(); });
+      act.appendChild(b);
+    } else if (accepted[o.ref]) {
+      act.innerHTML = '<div class="flag flag--o"><span class="flag__i">✓</span><span>' +
+        fill('placed', { n: o.ref }) + '</span></div>';
     }
   }
 
-  /* =========================================================================
-     6. CHARTS
-     Hand-drawn SVG against one scale per chart, with a hover layer and a
-     table view. Series colours validated for CVD separation, chroma,
-     lightness band and surface contrast in both light and dark modes.
-     ========================================================================= */
+  /* ---------------------------------------------------------------- charts */
   var MONTHS = [
-    { en: 'Mar', pt: 'Mar', cost: 41.0, margin: 21.4 },
-    { en: 'Apr', pt: 'Abr', cost: 46.4, margin: 25.4 },
-    { en: 'May', pt: 'Mai', cost: 44.6, margin: 23.6 },
-    { en: 'Jun', pt: 'Jun', cost: 53.7, margin: 30.9 },
-    { en: 'Jul', pt: 'Jul', cost: 57.5, margin: 33.8 },
-    { en: 'Aug', pt: 'Ago', cost: 51.1, margin: 28.4 }
+    { pt:'Mar', en:'Mar', v:7420 }, { pt:'Abr', en:'Apr', v:8110 },
+    { pt:'Mai', en:'May', v:7860 }, { pt:'Jun', en:'Jun', v:9240 },
+    { pt:'Jul', en:'Jul', v:9680 }, { pt:'Ago', en:'Aug', v:8940 }
   ];
-  var WEEKS = [
-    { w: 'W31', m2: 402 }, { w: 'W32', m2: 441 }, { w: 'W33', m2: 468 },
-    { w: 'W34', m2: 455 }, { w: 'W35', m2: 471 }, { w: 'W36', m2: 429 }
-  ];
-  var CAPACITY = 480;
-  var LINES = [
-    { en: 'Low-E double', pt: 'Duplo baixo emissivo', m2: 3180, margin: 33.1 },
-    { en: 'Smoked &amp; solar control', pt: 'Fumado e controlo solar', m2: 1240, margin: 44.6 },
-    { en: 'Triple', pt: 'Triplo', m2: 780, margin: 38.2 },
-    { en: 'Clear double', pt: 'Duplo incolor', m2: 690, margin: 21.4 }
-  ];
+  var WEEKS = [ { w:'S31', v:58 }, { w:'S32', v:64 }, { w:'S33', v:69 },
+                { w:'S34', v:61 }, { w:'S35', v:67 }, { w:'S36', v:52 } ];
+  var CAP = 70;
 
   var tip = $('#tip');
-  function showTip(evt, title, rows) {
-    tip.innerHTML = '<div class="tip__t">' + title + '</div>' +
-      rows.map(function (r) {
-        var sw = r[2] ? '<span class="tip__sw" style="background:' + r[2] + '"></span>' : '';
-        return '<div class="tip__r"><span>' + sw + r[0] + '</span><span>' + r[1] + '</span></div>';
-      }).join('');
-    tip.classList.add('on');
-    moveTip(evt);
+  function showTip(e, title, rows) {
+    tip.innerHTML = '<div class="tip__t">' + title + '</div>' + rows.map(function (r) {
+      return '<div class="tip__r"><span>' + r[0] + '</span><span>' + r[1] + '</span></div>';
+    }).join('');
+    tip.classList.add('on'); moveTip(e);
   }
-  function moveTip(evt) {
-    var pad = 14;
-    var r = tip.getBoundingClientRect();
-    var x = evt.clientX + pad, y = evt.clientY + pad;
-    if (x + r.width > window.innerWidth - 8) x = evt.clientX - r.width - pad;
-    if (y + r.height > window.innerHeight - 8) y = evt.clientY - r.height - pad;
-    tip.style.left = Math.max(8, x) + 'px';
-    tip.style.top = Math.max(8, y) + 'px';
+  function moveTip(e) {
+    var r = tip.getBoundingClientRect(), pad = 14;
+    var x = e.clientX + pad, y = e.clientY + pad;
+    if (x + r.width > window.innerWidth - 8) x = e.clientX - r.width - pad;
+    if (y + r.height > window.innerHeight - 8) y = e.clientY - r.height - pad;
+    tip.style.left = Math.max(8, x) + 'px'; tip.style.top = Math.max(8, y) + 'px';
   }
   function hideTip() { tip.classList.remove('on'); }
-
-  function hoverable(node, title, rows) {
-    node.classList.add('bar-hit');
-    node.addEventListener('mouseenter', function (e) { showTip(e, title, rows); });
-    node.addEventListener('mousemove', moveTip);
-    node.addEventListener('mouseleave', hideTip);
+  function hover(n, title, rows) {
+    n.classList.add('hit');
+    n.addEventListener('mouseenter', function (e) { showTip(e, title, rows); });
+    n.addEventListener('mousemove', moveTip);
+    n.addEventListener('mouseleave', hideTip);
   }
-
-  function gridline(svg, x1, x2, y, label) {
-    svg.appendChild(el('line', {
-      x1: x1, y1: y, x2: x2, y2: y, stroke: 'var(--edge)', 'stroke-width': 1
-    }));
-    if (label !== null) {
-      svg.appendChild(txt(x1 - 7, y + 3.5, label, {
-        'font-family': 'var(--mono)', 'font-size': 9.5, fill: 'var(--ink-3)', 'text-anchor': 'end'
-      }));
-    }
+  function grid(svg, L, R, y, label) {
+    svg.appendChild(el('line', { x1:L, y1:y, x2:R, y2:y, stroke:'var(--edge)', 'stroke-width':1 }));
+    svg.appendChild(tx(L - 7, y + 3.5, label,
+      { 'font-family':'var(--mono)', 'font-size':9.5, fill:'var(--ink-3)', 'text-anchor':'end' }));
   }
 
   function drawC1() {
-    var svg = $('#c1');
-    svg.innerHTML = '';
-    var L = 42, R = 410, TOP = 24, BOT = 168, MAX = 100;
+    var svg = $('#c1'); svg.innerHTML = '';
+    var L = 46, R = 410, TOP = 24, BOT = 160, MAX = 12000;
     var y = function (v) { return BOT - (v / MAX) * (BOT - TOP); };
-
-    [0, 25, 50, 75, 100].forEach(function (v) { gridline(svg, L, R, y(v), String(v)); });
-    svg.appendChild(txt(L - 7, TOP - 10, '€k', {
-      'font-family': 'var(--mono)', 'font-size': 9, fill: 'var(--ink-3)', 'text-anchor': 'end'
-    }));
-
-    var band = (R - L) / MONTHS.length, bw = 32;
-
+    [0, 3000, 6000, 9000, 12000].forEach(function (v) { grid(svg, L, R, y(v), (v / 1000) + 'k'); });
+    var band = (R - L) / MONTHS.length, bw = 34;
     MONTHS.forEach(function (m, i) {
-      var cx = L + band * i + band / 2;
-      var x = cx - bw / 2;
-      var rev = m.cost + m.margin;
-
-      /* cost segment, anchored to the baseline */
-      var hCost = BOT - y(m.cost);
-      var rCost = el('rect', {
-        x: x, y: y(m.cost), width: bw, height: hCost, fill: 'var(--series-2)', rx: 0
-      });
-      /* margin segment on top, 2px surface gap between segments */
-      var hMar = (BOT - y(m.margin)) - 2;
-      var rMar = el('rect', {
-        x: x, y: y(rev), width: bw, height: Math.max(1, hMar), fill: 'var(--series-1)', rx: 4
-      });
-      /* square off the bottom of the rounded top segment */
-      var rMarFoot = el('rect', {
-        x: x, y: y(rev) + 4, width: bw, height: Math.max(1, hMar - 4), fill: 'var(--series-1)'
-      });
-
-      svg.appendChild(rCost);
-      svg.appendChild(rMar);
-      svg.appendChild(rMarFoot);
-
-      var rows = [
-        [t('lMargin'), '€' + num(m.margin, 1) + 'k', 'var(--series-1)'],
-        [t('lCost'), '€' + num(m.cost, 1) + 'k', 'var(--series-2)'],
-        [t('tblRevenue'), '€' + num(rev, 1) + 'k', null],
-        [t('tblMarginPct'), num(100 * m.margin / rev, 1) + '%', null]
-      ];
-      hoverable(rCost, name(m), rows);
-      hoverable(rMar, name(m), rows);
-      hoverable(rMarFoot, name(m), rows);
-
-      /* direct label: the total, not a number on every segment */
-      svg.appendChild(txt(cx, y(rev) - 7, num(rev, 1), {
-        'font-family': 'var(--mono)', 'font-size': 10, 'font-weight': 500,
-        fill: 'var(--ink-2)', 'text-anchor': 'middle'
-      }));
-      svg.appendChild(txt(cx, BOT + 15, name(m), {
-        'font-family': 'var(--mono)', 'font-size': 10, fill: 'var(--ink-2)', 'text-anchor': 'middle'
-      }));
+      var cx = L + band * i + band / 2, x = cx - bw / 2, hgt = BOT - y(m.v);
+      var r = el('rect', { x:x, y:y(m.v), width:bw, height:hgt, fill:'var(--series-1)', rx:4 });
+      var f = el('rect', { x:x, y:y(m.v) + 4, width:bw, height:Math.max(1, hgt - 4), fill:'var(--series-1)' });
+      svg.appendChild(r); svg.appendChild(f);
+      hover(r, loc(m), [[t('tblBilled'), euro(m.v * 100, 0)]]);
+      hover(f, loc(m), [[t('tblBilled'), euro(m.v * 100, 0)]]);
+      svg.appendChild(tx(cx, y(m.v) - 7, euro(m.v * 100, 0),
+        { 'font-family':'var(--mono)', 'font-size':10, 'font-weight':500, fill:'var(--ink-2)', 'text-anchor':'middle' }));
+      svg.appendChild(tx(cx, BOT + 16, loc(m),
+        { 'font-family':'var(--mono)', 'font-size':10.5, fill:'var(--ink-2)', 'text-anchor':'middle' }));
     });
-
-    $('#c1t').innerHTML = '<table class="itemtable"><thead><tr><th>' + t('tblMonth') +
-      '</th><th class="num">' + t('tblCost') + '</th><th class="num">' + t('tblMargin') +
-      '</th><th class="num">' + t('tblRevenue') + '</th><th class="num">' + t('tblMarginPct') +
-      '</th></tr></thead><tbody>' +
-      MONTHS.map(function (m) {
-        var rev = m.cost + m.margin;
-        return '<tr><td class="t">' + name(m) + '</td><td class="num">€' + num(m.cost, 1) +
-          'k</td><td class="num">€' + num(m.margin, 1) + 'k</td><td class="num">€' +
-          num(rev, 1) + 'k</td><td class="num">' + num(100 * m.margin / rev, 1) + '%</td></tr>';
-      }).join('') + '</tbody></table>';
+    $('#c1t2').innerHTML = '<table class="tbl"><thead><tr><th>' + t('tblMonth') +
+      '</th><th class="n">' + t('tblBilled') + '</th></tr></thead><tbody>' +
+      MONTHS.map(function (m) { return '<tr><td class="t">' + loc(m) + '</td><td class="n">' + euro(m.v * 100, 0) + '</td></tr>'; }).join('') +
+      '</tbody></table>';
   }
 
   function drawC2() {
-    var svg = $('#c2');
-    svg.innerHTML = '';
-    var L = 42, R = 410, TOP = 24, BOT = 168, MAX = 560;
+    var svg = $('#c2'); svg.innerHTML = '';
+    var L = 40, R = 410, TOP = 24, BOT = 160, MAX = 84;
     var y = function (v) { return BOT - (v / MAX) * (BOT - TOP); };
-
-    [0, 140, 280, 420, 560].forEach(function (v) { gridline(svg, L, R, y(v), String(v)); });
-    svg.appendChild(txt(L - 7, TOP - 10, 'm²', {
-      'font-family': 'var(--mono)', 'font-size': 9, fill: 'var(--ink-3)', 'text-anchor': 'end'
-    }));
-
-    var band = (R - L) / WEEKS.length, bw = 32;
-
+    [0, 21, 42, 63, 84].forEach(function (v) { grid(svg, L, R, y(v), String(v)); });
+    var band = (R - L) / WEEKS.length, bw = 34;
     WEEKS.forEach(function (k, i) {
-      var cx = L + band * i + band / 2;
-      var x = cx - bw / 2;
-      var h = BOT - y(k.m2);
-      var util = 100 * k.m2 / CAPACITY;
-      var r = el('rect', { x: x, y: y(k.m2), width: bw, height: h, fill: 'var(--series-1)', rx: 4 });
-      var foot = el('rect', { x: x, y: y(k.m2) + 4, width: bw, height: Math.max(1, h - 4), fill: 'var(--series-1)' });
-      svg.appendChild(r); svg.appendChild(foot);
-
-      var rows = [
-        [t('tblCommitted'), num(k.m2, 0) + ' m²', 'var(--series-1)'],
-        [t('tblUtil'), num(util, 1) + '%', null]
-      ];
-      hoverable(r, '2026-' + k.w, rows);
-      hoverable(foot, '2026-' + k.w, rows);
-
-      /* Value inside the bar. Above it would collide with the capacity line
-         for any week running near capacity — which is exactly the week the
-         reader cares about. */
-      svg.appendChild(txt(cx, y(k.m2) + 14, String(k.m2), {
-        'font-family': 'var(--mono)', 'font-size': 10, 'font-weight': 500,
-        fill: 'var(--ground)', 'text-anchor': 'middle'
-      }));
-      svg.appendChild(txt(cx, BOT + 15, k.w, {
-        'font-family': 'var(--mono)', 'font-size': 10, fill: 'var(--ink-2)', 'text-anchor': 'middle'
-      }));
+      var cx = L + band * i + band / 2, x = cx - bw / 2, hgt = BOT - y(k.v);
+      var r = el('rect', { x:x, y:y(k.v), width:bw, height:hgt, fill:'var(--series-1)', rx:4 });
+      var f = el('rect', { x:x, y:y(k.v) + 4, width:bw, height:Math.max(1, hgt - 4), fill:'var(--series-1)' });
+      svg.appendChild(r); svg.appendChild(f);
+      var rows = [[t('tblM2'), nm(k.v, 0)], [t('tblUse'), nm(100 * k.v / CAP, 0) + '%']];
+      hover(r, k.w, rows); hover(f, k.w, rows);
+      /* inside the bar: above it would collide with the capacity line */
+      svg.appendChild(tx(cx, y(k.v) + 15, String(k.v),
+        { 'font-family':'var(--mono)', 'font-size':10, 'font-weight':500, fill:'var(--ground)', 'text-anchor':'middle' }));
+      svg.appendChild(tx(cx, BOT + 16, k.w,
+        { 'font-family':'var(--mono)', 'font-size':10.5, fill:'var(--ink-2)', 'text-anchor':'middle' }));
     });
-
-    /* Capacity reference line, directly labelled */
-    svg.appendChild(el('line', {
-      x1: L, y1: y(CAPACITY), x2: R, y2: y(CAPACITY),
-      stroke: 'var(--critical)', 'stroke-width': 2, 'stroke-dasharray': '5 4'
-    }));
-    svg.appendChild(txt(R, y(CAPACITY) - 6, t('capacityLbl'), {
-      'font-family': 'var(--mono)', 'font-size': 9.5, 'font-weight': 500,
-      fill: 'var(--critical)', 'text-anchor': 'end'
-    }));
-
-    $('#c2t').innerHTML = '<table class="itemtable"><thead><tr><th>' + t('tblWeek') +
-      '</th><th class="num">' + t('tblCommitted') + '</th><th class="num">' + t('tblUtil') +
+    svg.appendChild(el('line', { x1:L, y1:y(CAP), x2:R, y2:y(CAP),
+      stroke:'var(--bad)', 'stroke-width':2, 'stroke-dasharray':'5 4' }));
+    svg.appendChild(tx(R, y(CAP) - 6, t('cap'),
+      { 'font-family':'var(--mono)', 'font-size':9.5, 'font-weight':500, fill:'var(--bad)', 'text-anchor':'end' }));
+    $('#c2t2').innerHTML = '<table class="tbl"><thead><tr><th>' + t('tblWeek') +
+      '</th><th class="n">' + t('tblM2') + '</th><th class="n">' + t('tblUse') +
       '</th></tr></thead><tbody>' +
-      WEEKS.map(function (k) {
-        return '<tr><td>2026-' + k.w + '</td><td class="num">' + k.m2 +
-          '</td><td class="num">' + num(100 * k.m2 / CAPACITY, 1) + '%</td></tr>';
-      }).join('') + '</tbody></table>';
+      WEEKS.map(function (k) { return '<tr><td>' + k.w + '</td><td class="n">' + k.v +
+        '</td><td class="n">' + nm(100 * k.v / CAP, 0) + '%</td></tr>'; }).join('') + '</tbody></table>';
   }
 
-  function drawC3() {
-    var svg = $('#c3');
-    svg.innerHTML = '';
-    /* Wide viewBox: this panel is full width, so a 420-unit box would scale
-       every label up by ~2.6x. */
-    var LBL = 214, L = 226, R = 720, MARGIN_X = 884, TOP = 30, ROW = 32, MAX = 3400;
-    var x = function (v) { return L + (v / MAX) * (R - L); };
-
-    svg.appendChild(txt(MARGIN_X, 14, t('tblMarginPct'), {
-      'font-family': 'var(--mono)', 'font-size': 9.5, fill: 'var(--ink-3)',
-      'text-anchor': 'end', 'letter-spacing': '0.06em'
-    }));
-    svg.appendChild(txt(L, 14, 'm²', {
-      'font-family': 'var(--mono)', 'font-size': 9.5, fill: 'var(--ink-3)',
-      'letter-spacing': '0.06em'
-    }));
-
-    LINES.forEach(function (d, i) {
-      var cy = TOP + ROW * i;
-      var label = name(d).replace('&amp;', '&');
-      var w = Math.max(3, x(d.m2) - L);
-
-      svg.appendChild(txt(LBL, cy + 12, label, {
-        'font-family': 'var(--body)', 'font-size': 12.5, 'font-weight': 500,
-        fill: 'var(--ink)', 'text-anchor': 'end'
-      }));
-
-      svg.appendChild(el('rect', {
-        x: L, y: cy + 2, width: w, height: 14, fill: 'var(--series-1)', rx: 4
-      }));
-      var foot = el('rect', {
-        x: L, y: cy + 2, width: Math.max(1, w - 4), height: 14, fill: 'var(--series-1)'
-      });
-      svg.appendChild(foot);
-
-      var rows = [
-        ['m²', num(d.m2, 0), 'var(--series-1)'],
-        [t('tblMarginPct'), num(d.margin, 1) + '%', null]
-      ];
-      var hit = el('rect', { x: L, y: cy, width: Math.max(w, 8), height: 18, fill: 'transparent' });
-      svg.appendChild(hit);
-      hoverable(hit, label, rows);
-
-      svg.appendChild(txt(x(d.m2) + 9, cy + 13, num(d.m2, 0), {
-        'font-family': 'var(--mono)', 'font-size': 11, 'font-weight': 500, fill: 'var(--ink-2)'
-      }));
-      svg.appendChild(txt(MARGIN_X, cy + 13, num(d.margin, 1) + '%', {
-        'font-family': 'var(--mono)', 'font-size': 11.5, 'font-weight': 500,
-        fill: 'var(--ink)', 'text-anchor': 'end'
-      }));
-    });
-
-    $('#c3t').innerHTML = '<table class="itemtable"><thead><tr><th>' + t('tblLine') +
-      '</th><th class="num">m²</th><th class="num">' + t('tblMarginPct') +
-      '</th></tr></thead><tbody>' +
-      LINES.map(function (d) {
-        return '<tr><td class="t">' + name(d) + '</td><td class="num">' + d.m2 +
-          '</td><td class="num">' + num(d.margin, 1) + '%</td></tr>';
-      }).join('') + '</tbody></table>';
-  }
-
-  /* =========================================================================
-     7. VIEWS, LANGUAGE, INIT
-     ========================================================================= */
-  function applyLang() {
-    $$('[data-i18n]').forEach(function (n) {
-      var k = n.getAttribute('data-i18n');
-      if (T[lang][k] !== undefined) n.innerHTML = T[lang][k];
+  /* ------------------------------------------------------------------ wire */
+  function apply() {
+    $$('[data-i]').forEach(function (n) {
+      var k = n.getAttribute('data-i');
+      if (T[lang][k] !== undefined) n.textContent = T[lang][k];
     });
     document.documentElement.setAttribute('lang', lang === 'pt' ? 'pt-PT' : 'en');
     $$('.lang button').forEach(function (b) {
-      b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang ? 'true' : 'false');
+      b.setAttribute('aria-pressed', b.getAttribute('data-l') === lang ? 'true' : 'false');
     });
-    buildSelects();
-    compute();
-    renderQueue();
-    renderDetail();
-    drawC1(); drawC2(); drawC3();
+    buildProducts(); buildThickness(); buildPayments(); buildSlots();
+    calc(); renderList(); renderDetail(); drawC1(); drawC2();
   }
-
-  function showView(v) {
-    $$('[data-view-panel]').forEach(function (p) {
-      p.hidden = p.getAttribute('data-view-panel') !== v;
-    });
-    $$('.viewtabs button').forEach(function (b) {
-      b.setAttribute('aria-selected', b.getAttribute('data-view') === v ? 'true' : 'false');
+  function view(v) {
+    $$('[data-p]').forEach(function (p) { p.hidden = p.getAttribute('data-p') !== v; });
+    $$('.tabs button').forEach(function (b) {
+      b.setAttribute('aria-selected', b.getAttribute('data-v') === v ? 'true' : 'false');
     });
     hideTip();
   }
-
-  $$('.viewtabs button').forEach(function (b) {
-    b.addEventListener('click', function () { showView(b.getAttribute('data-view')); });
+  $$('.tabs button').forEach(function (b) { b.addEventListener('click', function () { view(b.getAttribute('data-v')); }); });
+  $$('.lang button').forEach(function (b) { b.addEventListener('click', function () { lang = b.getAttribute('data-l'); apply(); }); });
+  ['#w', '#h', '#q'].forEach(function (s) { $(s).addEventListener('input', calc); });
+  $('#place').addEventListener('click', function () {
+    var b = $('#place');
+    b.textContent = '✓ ' + fill('placed', { n: 'ENC-2026-0152' });
+    b.disabled = true;
+    setTimeout(function () { b.textContent = t('bp'); b.disabled = false; }, 2600);
   });
-  $$('.lang button').forEach(function (b) {
-    b.addEventListener('click', function () { lang = b.getAttribute('data-lang'); applyLang(); });
-  });
+  window.addEventListener('scroll', hideTip, { passive:true });
 
-  ['#w', '#h', '#qty'].forEach(function (s) {
-    $(s).addEventListener('input', compute);
-  });
-  $('#spec').addEventListener('change', function () { state.spec = parseInt(this.value, 10); compute(); });
-  $('#tint').addEventListener('change', function () { state.tint = parseInt(this.value, 10); compute(); });
-
-  window.addEventListener('scroll', hideTip, { passive: true });
-
-  applyLang();
+  apply();
 }());
 </script>
 
